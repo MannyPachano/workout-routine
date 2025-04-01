@@ -1043,9 +1043,15 @@
         
                 tbody {
     
-                    tr td {
-                        background-color: var(--data-row-black);
-                        border-color: var(--table-white-border);
+                    tr {
+                        td {
+                            background-color: var(--data-row-black);
+                            border-color: var(--table-white-border);
+                        }
+
+                        &:hover td {
+                            background-color: #222222 !important;
+                        }
                     }
                 }
                 
