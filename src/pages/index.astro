@@ -1061,12 +1061,17 @@
                 box-shadow: 2px 2px 8px #00000032;
                 text-decoration: none;
                 transition: all .35s;
-                min-width: 304px;
-        
+                width: 304px;
+                max-width: 100%;
+                border-top: solid 1px hsla(241, 55%, 36%, 0.687);
+                border-bottom: solid 1px hsla(243, 55%, 29%, 0.687);
+                
                 &:hover {
                     text-decoration: underline;
                     background-color: hsla(242, 55%, 33%, 0.552);
                     transform: translateY(-2px);
+                    border-top: solid 1px hsla(241, 55%, 27%, 0.552);
+                    border-bottom: solid 1px hsla(244, 55%, 22%, 0.550);
                 }
             }
         }
