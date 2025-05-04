@@ -1,24 +1,13 @@
+---
+import "../style.scss";
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>12-Week Workout Plan</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        ul {
-            line-height: 1.8;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -31,85 +20,102 @@
             <a href="#phase-1" class="link">Jump to Hypertrophy Phase 1</a>
             <a href="#cardio" class="link">Jump to Cardio</a>
         </section>
+
+
+
         <section>
             <h2>Daily Mobility Routine</h2>
             <p>Perform this routine before each workout day to enhance flexibility, mobility, and joint health.</p>
             <p>Alternate between Move.A & Move.B each day. Strengthen is the same every day.</p>
-            <h3>Move.Warmup - 5 Reps Each</h3>
-            <ul>
-                <li>Neck CARs</li>
-                <li>Scapular CARs</li>
-                <li>Shoulder CARs</li>
-                <li>Spinal Segmentation</li>
-                <li>Wrist CARs</li>
-                <li>Hip CARs</li>
-                <li>Knee CARs</li>
-                <li>Foot CARs</li>
-            </ul>
-            <h3>Move.A - 10 Reps Each</h3>
-            <ul>
-                <li>Seated Side to Side Stretches</li>
-                <li>Spinal Waves</li>
-                <li>Leg Across Twists on Floor</li>
-                <li>Down Dog Calves</li>
-                <li>Ankle Flexors</li>
-                <li>Kneeling Lunges</li>
-                <li>Wall Backbends</li>
-                <li>Seated Piriformis Stretch</li>
-                <li>Outer Hamstring Floor Touches</li>
-                <li>Butterfly</li>
-                <li>Kosak Squats</li>
-                <li>Horse Stance Squats</li>
-                <li>Neck Nods</li>
-                <li>Neck Ear to Ear</li>
-                <li>Tricep Stretch</li>
-                <li>Horizontal Shoulder Stretch</li>
-                <li>Chest Post Stretch</li>
-                <li>Plantar Flexion</li>
-                <li>Ankle Rolls</li>
-                <li>Wrist Flexor Stretch</li>
-                <li>Wrist Extensor Stretch</li>
-                <li>Finger Stretch (5 reps)</li>
-            </ul>
-            <h3>Move.B - 10 Reps Each</h3>
-            <ul>
-                <li>Standing Side to Side Stretches</li>
-                <li>CatCow</li>
-                <li>Wall Twists</li>
-                <li>Down Dog Calves</li>
-                <li>Ankle Flexors</li>
-                <li>Standing Lunges</li>
-                <li>Wall Angled Backbends</li>
-                <li>Pigeon</li>
-                <li>Hamstring Floor Touches</li>
-                <li>Butterfly</li>
-                <li>Kosak Squats Toes Out</li>
-                <li>Floor Groin Diamonds</li>
-                <li>Neck Nods</li>
-                <li>Trap Stretches</li>
-                <li>Tricep Stretch</li>
-                <li>Lat Stretch</li>
-                <li>Chest Post Stretch</li>
-                <li>Plantar Flexion</li>
-                <li>Ankle Circles Each Way</li>
-                <li>Wrist Flexor Stretch</li>
-                <li>Wrist Extensor Stretch</li>
-                <li>Finger Stretch (5 reps)</li>
-            </ul>
-            <h3>Strengthen - 20 Reps Each</h3>
-            <ul>
-                <li>Finger Raises</li>
-                <li>Reverse Wrist Raises</li>
-                <li>Scapular Pushups</li>
-                <li>Finger Pushups</li>
-                <li>Reverse Finger Pushups</li>
-                <li>Toe Pushes</li>
-                <li>Toe Pulls</li>
-                <li>Horizontal Hip Twists</li>
-                <li>Sissy Squats</li>
-                <li>Hang Stretches All Planes</li>
-            </ul>
+            <div class="mobility-boxes">
+                <details>
+                    <summary>Movement Warmup</summary>
+                    <ul>
+                        <li>Neck CARs</li>
+                        <li>Scapular CARs</li>
+                        <li>Shoulder CARs</li>
+                        <li>Spinal Segmentation</li>
+                        <li>Wrist CARs</li>
+                        <li>Hip CARs</li>
+                        <li>Knee CARs</li>
+                        <li>Foot CARs</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary>Movement A</summary>
+                    <ul>
+                        <li>Seated Side to Side Stretches</li>
+                        <li>Spinal Waves</li>
+                        <li>Leg Across Twists on Floor</li>
+                        <li>Down Dog Calves</li>
+                        <li>Ankle Flexors</li>
+                        <li>Kneeling Lunges</li>
+                        <li>Wall Backbends</li>
+                        <li>Seated Piriformis Stretch</li>
+                        <li>Outer Hamstring Floor Touches</li>
+                        <li>Butterfly</li>
+                        <li>Kosak Squats</li>
+                        <li>Horse Stance Squats</li>
+                        <li>Neck Nods</li>
+                        <li>Neck Massage (2 min / side)</li>
+                        <li>Tricep Stretch</li>
+                        <li>Horizontal Shoulder Stretch</li>
+                        <li>Chest Post Stretch</li>
+                        <li>Bicep Post Stretch</li>
+                        <li>Plantar Flexion</li>
+                        <li>Ankle Rolls</li>
+                        <li>Wrist Flexor Stretch</li>
+                        <li>Wrist Extensor Stretch</li>
+                        <li>Finger Stretch (5 reps)</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary>Movement B</summary>
+                    <ul>
+                        <li>Standing Side to Side Stretches</li>
+                        <li>CatCow</li>
+                        <li>Wall Twists</li>
+                        <li>Down Dog Calves</li>
+                        <li>Ankle Flexors</li>
+                        <li>Standing Lunges</li>
+                        <li>Wall Angled Backbends</li>
+                        <li>Pigeon</li>
+                        <li>Hamstring Floor Touches</li>
+                        <li>Butterfly</li>
+                        <li>Kosak Squats Toes Out</li>
+                        <li>Floor Groin Diamonds</li>
+                        <li>Neck Nods</li>
+                        <li>Trap Massage (2 min / side)</li>
+                        <li>Tricep Stretch</li>
+                        <li>Lat Stretch</li>
+                        <li>Chest Post Stretch</li>
+                        <li>Plantar Flexion</li>
+                        <li>Ankle Circles Each Way</li>
+                        <li>Wrist Flexor Stretch</li>
+                        <li>Wrist Extensor Stretch</li>
+                        <li>Finger Stretch (5 reps)</li>
+                    </ul>
+                </details>
+                <details>
+                    <summary>Daily Strength</summary>
+                    <ul>
+                        <li>Finger Raises</li>
+                        <li>Reverse Wrist Raises</li>
+                        <li>Scapular Pushups</li>
+                        <li>Finger Pushups</li>
+                        <li>Reverse Finger Pushups</li>
+                        <li>Toe Pushes</li>
+                        <li>Toe Pulls</li>
+                        <li>Horizontal Hip Twists</li>
+                        <li>Sissy Squats</li>
+                        <li>Hang Stretches All Planes</li>
+                    </ul>
+                </details>
+            </mobility-boxes>
         </section>
+
+
+
         <hr>
         
         
@@ -1032,204 +1038,34 @@
 </body>
 </html>
 
-<style lang="scss">
-    html {
-        scroll-behavior: smooth;
-    }
-
-    * {
-        margin: 0;
-        box-sizing: border-box;
-    }
-
-    :root {
-        --text-white-header: #cdcdcd;
-        --text-white-body: #adadad;
-        --table-white-border: #5e5e5e;
-        --blue-shade: hsla(242, 55%, 40%, 0.687);
-        --background-black: #202020;
-        --outer-background-black: #151515;
-        --data-row-black: #121212;
-    }
-
-    body {
-        padding: 0;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        background-color: var(--outer-background-black);
-        color: var(--text-white-body);
-        overflow-x: hidden;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-
-        @media only screen and (min-width: 500px) {
-                padding: 8px;
-            }
-
-        .container {
-            width: 1200px;
-            max-width: 100%;
-            padding: 24px 12px;
-            box-shadow: 4px 4px 20px #0000008c;
-            background-color: var(--background-black);
-            position: relative;
-            
-            @media only screen and (min-width: 500px) {
-                padding: 24px 16px;
-            }
-            
-            @media only screen and (min-width: 900px) {
-                padding: 24px;
-            }
-            
-            hr {
-                margin-top: 80px;
-                border-top: 0;
-                border-left: 0;
-                border-right: 0;
-                border-bottom: solid 1px #3e3e3e;
-            }
-
-            p {
-                line-height: 1.6;
-                margin-bottom: 8px;
-            }
-    
-            h1, h2, h3, th {
-                color: var(--text-white-header) !important;
-            }
-    
-            h1 {
-                margin-bottom: 24px;
-            }
-    
-            h2 {
-                margin: 24px 0 16px;
-            }
-    
-            h3 {
-                margin: 40px 0 16px;
-            }
-    
-            .workout-container-tables {
-                max-width: 100%;
-                overflow: scroll;
-                
-                table {
-
-                    thead {
-                        
-                        tr th{
-                            background-color: var(--blue-shade);
-                            border-color: var(--table-white-border);
-                            min-width: 60px;
-                            font-size: 14px;
-
-                            @media only screen and (min-width: 400px) {
-                                font-size: 15px;
-                            }
-                            
-                            @media only screen and (min-width: 500px) {
-                                font-size: 16px;
-                            }
-                        }
-                    }
-            
-                    tbody {
-        
-                        tr {
-                            td {
-                                background-color: var(--data-row-black);
-                                border-color: var(--table-white-border);
-                                min-width: 60px;
-                                font-size: 14px;
-
-                                @media only screen and (min-width: 400px) {
-                                    font-size: 15px;
-                                }
-                                
-                                @media only screen and (min-width: 500px) {
-                                    font-size: 16px;
-                                }
-                            }
-    
-                            &:hover td {
-                                background-color: #222222 !important;
-                            }
-                        }
-                    }
-                    
-                    .superset {
-                        padding-left: 24px;
-                    }
-                }
-            }
-    
-        
-            .link {
-                display: flex;
-                justify-self: start;
-                margin: 24px 0;
-                padding: 16px 32px;
-                background-color: var(--blue-shade);
-                color: var(--text-white-body);
-                border-radius: 4px;
-                box-shadow: 2px 2px 8px #00000032;
-                text-decoration: none;
-                transition: all .35s;
-                width: 305px;
-                max-width: 100%;
-                border-top: solid 1px hsla(241, 55%, 36%, 0.687);
-                border-bottom: solid 1px hsla(243, 55%, 29%, 0.687);
-                
-                &:hover {
-                    text-decoration: underline;
-                    background-color: hsla(242, 55%, 33%, 0.552);
-                    transform: translateY(-2px);
-                    border-top: solid 1px hsla(241, 55%, 27%, 0.552);
-                    border-bottom: solid 1px hsla(244, 55%, 22%, 0.550);
-                }
-            }
-
-            .back-to-top {
-                display: none;
-                position: fixed;
-                bottom: 1rem;
-                right: 1rem;
-                padding: 8px 16px;
-                color: var(--text-white-body);
-                border-radius: 4px;
-                box-shadow: 2px 2px 8px #00000032;
-                text-decoration: none;
-                transition: all .35s;
-                max-width: 100%;
-                background-color: hsla(242, 55%, 33%, 0.552);
-                border-top: solid 1px hsla(241, 55%, 27%, 0.552);
-                border-bottom: solid 1px hsla(244, 55%, 22%, 0.550);
-                
-                &:hover {
-                    background-color: var(--blue-shade);
-                    transform: translateY(-2px);
-                    border-top: solid 1px hsla(241, 55%, 36%, 0.687);
-                    border-bottom: solid 1px hsla(243, 55%, 29%, 0.687);
-                }
-            }
-        }
-
-    }
-
-</style>
-
 <script>
-    window.addEventListener("scroll", () => {
-      const button = document.getElementById("back-to-top");
-      if (button) {
-          if (window.scrollY > 1200) {
-            button.style.display = "block";
-          } else {
-            button.style.display = "none";
-          }
-      }
-    });
+    
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // scroll to top
+        window.addEventListener("scroll", () => {
+            const button = document.getElementById("back-to-top");
+            if (button) {
+                if (window.scrollY > 1200) {
+                    button.style.display = "block";
+                } else {
+                    button.style.display = "none";
+                }
+            }
+        });
+            
+        // section toggle
+        const mobilityDetails = document.querySelectorAll('.mobility-boxes details');
+        mobilityDetails.forEach((targetDetail) => {
+            targetDetail.addEventListener('click', () => {
+                mobilityDetails.forEach((detail) => {
+                if (detail !== targetDetail) detail.removeAttribute('open');
+                });
+            });
+        });
+    })
   </script>
   
