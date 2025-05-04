@@ -145,6 +145,42 @@ body {
 
         }
 
+        .workout-boxes {
+            *:focus {
+                outline: none;
+            }
+
+            details {
+                overflow: hidden;
+                transition: all .35s;
+
+                &[open] summary::after {
+                    transform: rotate(180deg);
+                }
+            }
+
+            summary {
+                position: relative;
+                cursor: pointer;
+                padding-right: 1.25rem;
+                list-style: none;
+                transition: all .35s;
+
+                &::marker, &::-webkit-details-marker {
+                    display: none !important;
+                }
+
+                &::after {
+                    content: '▼';
+                    position: absolute;
+                    right: 0;
+                    top: 4px;
+                    font-size: 12px;
+                    transition: transform 0.3s;
+                }
+            }
+        }
+
         hr {
             margin-top: 80px;
             border-top: 0;
