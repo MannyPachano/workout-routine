@@ -284,6 +284,7 @@ body {
         .link {
             display: flex;
             justify-self: center;
+            justify-content: center;
             margin: 24px auto;
             padding: 16px 32px;
             background-color: var(--blue-shade);
@@ -292,7 +293,7 @@ body {
             box-shadow: 2px 2px 8px #00000032;
             text-decoration: none;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
             transition: all .35s;
             width: 288px;
             max-width: 100%;
