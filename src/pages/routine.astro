@@ -1,0 +1,331 @@
+---
+import "../style.scss";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Routine</title>
+</head>
+<body>
+    <div class="container">
+        <a href="#top" id="back-to-top" class="back-to-top">^</a>
+        
+        <h1>Life Routine</h1>
+
+        <section id="daily-phases" class="routine-section">
+            <h2>DAILY PHASES (IN ORDER)</h2>
+            
+            <div class="phase-box">
+                <div class="phase-number">1</div>
+                <div class="phase-content">
+                    <h3>Regulate (90–120 min)</h3>
+                    <p>Breathwork, morning light, walk Milky, stillness. No phone.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">2</div>
+                <div class="phase-content">
+                    <h3>Open the Body (60–90 min)</h3>
+                    <p>Yoga Barn or long mobility + stretching.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">3</div>
+                <div class="phase-content">
+                    <h3>Fuel & Ground (45–60 min)</h3>
+                    <p>Big meal (~1000 cal), short walk, sun/tan time.</p>
+                    <details class="smoothie-details">
+                        <summary>Smoothie Ingredients</summary>
+                        <ul class="ingredients-list">
+                            <li>Whole milk or coconut milk</li>
+                            <li>Bananas (2)</li>
+                            <li>Rolled oats (½ cup)</li>
+                            <li>Cashew / peanut / almond butter</li>
+                            <li>Coconut oil or MCT oil</li>
+                            <li>Protein powder (whey or plant)</li>
+                            <li class="optional">Optional:</li>
+                            <li class="optional">Cinnamon</li>
+                            <li class="optional">Pinch of sea salt</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">4</div>
+                <div class="phase-content">
+                    <h3>Earn (2.5–4 hrs)</h3>
+                    <p>TimeClick work in 2 focused blocks. Hard stop.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">5</div>
+                <div class="phase-content">
+                    <h3>Intensity (2–2.5 hrs)</h3>
+                    <p>Muay Thai + gym together. Decompress after.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">6</div>
+                <div class="phase-content">
+                    <h3>Create (60–120 min)</h3>
+                    <p>SwiftUI + habit app. Stop while it's fun.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">7</div>
+                <div class="phase-content">
+                    <h3>Connect & Eat (90 min)</h3>
+                    <p>Dinner, friends, low stimulation.</p>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-number">8</div>
+                <div class="phase-content">
+                    <h3>Wind Down (60–90 min)</h3>
+                    <p>Dog walk, stretch, screens dim. Sleep when tired.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="weekly-rhythm" class="routine-section">
+            <h2>WEEKLY RHYTHM</h2>
+            
+            <div class="rhythm-item">
+                <h3>Muay Thai: 4–5x/week</h3>
+                <p>(one lighter technical day)</p>
+            </div>
+
+            <div class="rhythm-item">
+                <h3>Gym: 4x/week</h3>
+                <p>(no max effort on hard MT days)</p>
+            </div>
+
+            <div class="rhythm-item">
+                <h3>Yoga: 2–3x/week</h3>
+                <p>(nervous system first)</p>
+            </div>
+
+            <div class="rhythm-item">
+                <h3>Work: 5 days</h3>
+                <p>2 lighter days, stop early</p>
+            </div>
+
+            <div class="rhythm-item">
+                <h3>Creation: daily light</h3>
+                <p>1 longer session weekly</p>
+            </div>
+
+            <div class="rhythm-item">
+                <h3>Full Reset Day: 1x/week</h3>
+                <p>No work, no training. Nature, swim, nothing.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="non-negotiables" class="routine-section">
+            <h2>NON-NEGOTIABLE RULES</h2>
+            
+            <ul class="rules-list">
+                <li>Regulate before producing</li>
+                <li>No stacked stressors</li>
+                <li>One thing at a time</li>
+                <li>Stop while energy is good</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // scroll to top
+        window.addEventListener("scroll", () => {
+            const button = document.getElementById("back-to-top");
+            if (button) {
+                if (window.scrollY > 1200) {
+                    button.style.display = "block";
+                } else {
+                    button.style.display = "none";
+                }
+            }
+        });
+    })
+</script>
+
+<style>
+    .routine-section {
+        margin-top: 2rem;
+    }
+
+    .phase-box {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--data-row-black);
+        border-radius: 4px;
+        border: 1px solid var(--table-white-border);
+        transition: all 0.3s ease;
+    }
+
+    .phase-box:hover {
+        background-color: #222222;
+        border-color: var(--blue-shade);
+        box-shadow: 0px 0px 8px 2px var(--blue-shade);
+    }
+
+    .phase-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 48px;
+        height: 48px;
+        background-color: var(--blue-shade);
+        border-radius: 50%;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--text-white-header);
+        border-top: solid 1px hsla(241, 55%, 36%, 0.687);
+        border-bottom: solid 1px hsla(243, 55%, 29%, 0.687);
+    }
+
+    .phase-content {
+        flex: 1;
+    }
+
+    .phase-content h3 {
+        margin: 0 0 8px 0;
+        color: var(--text-white-header);
+    }
+
+    .phase-content p {
+        margin: 0 0 12px 0;
+        color: var(--text-white-body);
+    }
+
+    .smoothie-details {
+        margin-top: 12px;
+    }
+
+    .smoothie-details summary {
+        cursor: pointer;
+        color: var(--text-white-header);
+        font-weight: 600;
+        padding: 8px 0;
+        list-style: none;
+        position: relative;
+        padding-right: 1.5rem;
+    }
+
+    .smoothie-details summary::marker,
+    .smoothie-details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .smoothie-details summary::after {
+        content: '▼';
+        position: absolute;
+        right: 0;
+        top: 8px;
+        font-size: 12px;
+        transition: transform 0.3s;
+    }
+
+    .smoothie-details[open] summary::after {
+        transform: rotate(180deg);
+    }
+
+    .ingredients-list {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .ingredients-list li {
+        padding: 8px 12px;
+        background-color: var(--background-black);
+        border-radius: 4px;
+        border: 1px solid var(--table-white-border);
+        color: var(--text-white-body);
+    }
+
+    .ingredients-list li.optional {
+        font-style: italic;
+        opacity: 0.8;
+        margin-top: 4px;
+    }
+
+    .rhythm-item {
+        margin-bottom: 1.5rem;
+        padding: 1rem 1.5rem;
+        background-color: var(--data-row-black);
+        border-radius: 4px;
+        border: 1px solid var(--table-white-border);
+        transition: all 0.3s ease;
+    }
+
+    .rhythm-item:hover {
+        background-color: #222222;
+        border-color: var(--blue-shade);
+    }
+
+    .rhythm-item h3 {
+        margin: 0 0 4px 0;
+        color: var(--text-white-header);
+    }
+
+    .rhythm-item p {
+        margin: 0;
+        color: var(--text-white-body);
+    }
+
+    .rules-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .rules-list li {
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        background-color: var(--data-row-black);
+        border-radius: 4px;
+        border: 1px solid var(--table-white-border);
+        border-left: 4px solid var(--blue-shade);
+        transition: all 0.3s ease;
+    }
+
+    .rules-list li:hover {
+        background-color: #222222;
+        border-color: var(--blue-shade);
+        transform: translateX(4px);
+    }
+
+    @media only screen and (max-width: 600px) {
+        .phase-box {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .phase-number {
+            align-self: flex-start;
+        }
+    }
+</style>
+
