@@ -19,59 +19,59 @@ import "../style.scss";
         <section id="daily-checklist" class="routine-section">
             <h2>DAILY ROUTINE</h2>
             <div class="checklist-container">
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="stretching">
-                    <span class="checkmark"></span>
-                    <span class="task-label">20 minutes of stretching (5am)</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="stretching" id="check-stretching">
+                    <label for="check-stretching" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="stretching">20 minutes of stretching (5am)</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="swiftui">
-                    <span class="checkmark"></span>
-                    <span class="task-label">SwiftUI code learning</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="swiftui" id="check-swiftui">
+                    <label for="check-swiftui" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="swiftui">SwiftUI code learning</span>
+                </div>
                 
-                <label class="checklist-item minor-item">
-                    <input type="checkbox" data-task="breakfast">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Breakfast</span>
-                </label>
+                <div class="checklist-item minor-item">
+                    <input type="checkbox" data-task="breakfast" id="check-breakfast">
+                    <label for="check-breakfast" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="breakfast">Breakfast</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="gym">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Gym</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="gym" id="check-gym">
+                    <label for="check-gym" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="gym">Gym</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="timeclick">
-                    <span class="checkmark"></span>
-                    <span class="task-label">TimeClick work</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="timeclick" id="check-timeclick">
+                    <label for="check-timeclick" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="timeclick">TimeClick work</span>
+                </div>
                 
-                <label class="checklist-item minor-item">
-                    <input type="checkbox" data-task="lunch">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Lunch</span>
-                </label>
+                <div class="checklist-item minor-item">
+                    <input type="checkbox" data-task="lunch" id="check-lunch">
+                    <label for="check-lunch" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="lunch">Lunch</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="muaythai">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Muay Thai</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="muaythai" id="check-muaythai">
+                    <label for="check-muaythai" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="muaythai">Muay Thai</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="guitar">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Guitar practice</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="guitar" id="check-guitar">
+                    <label for="check-guitar" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="guitar">Guitar practice</span>
+                </div>
                 
-                <label class="checklist-item task-item">
-                    <input type="checkbox" data-task="reading">
-                    <span class="checkmark"></span>
-                    <span class="task-label">Reading</span>
-                </label>
+                <div class="checklist-item task-item">
+                    <input type="checkbox" data-task="reading" id="check-reading">
+                    <label for="check-reading" class="checkmark"></label>
+                    <span class="task-label" contenteditable="true" data-task="reading">Reading</span>
+                </div>
             </div>
         </section>
 
@@ -81,30 +81,22 @@ import "../style.scss";
             <h2>WEEKLY RHYTHM</h2>
             
             <div class="rhythm-item">
-                <h3>Muay Thai: 4–5x/week</h3>
-                <p>(one lighter technical day)</p>
+                <h3>Muay Thai: 3-4x/week</h3>
             </div>
 
             <div class="rhythm-item">
-                <h3>Gym: 4x/week</h3>
-                <p>(no max effort on hard MT days)</p>
+                <h3>Gym: 5-6x/week</h3>
             </div>
 
             <div class="rhythm-item">
-                <h3>Yoga: 2–3x/week</h3>
+                <h3>Yoga: 1-2x/week</h3>
                 <p>(nervous system first)</p>
-            </div>
-
-            <div class="rhythm-item">
-                <h3>Work: 5 days</h3>
-                <p>2 lighter days, stop early</p>
             </div>
 
             <div class="rhythm-item">
                 <h3>Creation: daily light</h3>
                 <p>1 longer session weekly</p>
             </div>
-
             <div class="rhythm-item">
                 <h3>Full Reset Day: 1x/week</h3>
                 <p>No work, no training. Nature, swim, nothing.</p>
@@ -143,10 +135,12 @@ import "../style.scss";
 
         // Checklist persistence
         const checkboxes = document.querySelectorAll<HTMLInputElement>('#daily-checklist input[type="checkbox"]');
+        const taskLabels = document.querySelectorAll<HTMLElement>('#daily-checklist .task-label[contenteditable]');
         const today = new Date().toDateString();
         const storageKey = `routine-checklist-${today}`;
+        const textStorageKey = `routine-checklist-text`;
 
-        // Load saved state
+        // Load saved checkbox state
         const savedState = localStorage.getItem(storageKey);
         if (savedState) {
             try {
@@ -162,7 +156,23 @@ import "../style.scss";
             }
         }
 
-        // Save state on change
+        // Load saved text
+        const savedText = localStorage.getItem(textStorageKey);
+        if (savedText) {
+            try {
+                const textState: Record<string, string> = JSON.parse(savedText);
+                taskLabels.forEach(label => {
+                    const taskId = label.dataset.task;
+                    if (taskId && textState[taskId]) {
+                        label.textContent = textState[taskId];
+                    }
+                });
+            } catch (e) {
+                console.error('Error loading checklist text:', e);
+            }
+        }
+
+        // Save checkbox state on change
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 const state: Record<string, boolean> = {};
@@ -176,13 +186,35 @@ import "../style.scss";
             });
         });
 
+        // Save text on edit
+        taskLabels.forEach(label => {
+            label.addEventListener('blur', () => {
+                const textState: Record<string, string> = {};
+                taskLabels.forEach(l => {
+                    const taskId = l.dataset.task;
+                    if (taskId) {
+                        textState[taskId] = l.textContent || '';
+                    }
+                });
+                localStorage.setItem(textStorageKey, JSON.stringify(textState));
+            });
+
+            // Prevent Enter from creating new line, save on Enter
+            label.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    label.blur();
+                }
+            });
+        });
+
         // Reset button (optional - can be added later if needed)
         // Check if it's a new day and reset if needed
         const lastReset = localStorage.getItem('routine-checklist-last-reset');
         if (lastReset !== today) {
             // Clear old checklists (keep only today's)
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('routine-checklist-') && !key.endsWith(today) && key !== 'routine-checklist-last-reset') {
+                if (key.startsWith('routine-checklist-') && !key.endsWith(today) && key !== 'routine-checklist-last-reset' && key !== textStorageKey) {
                     localStorage.removeItem(key);
                 }
             });
@@ -210,7 +242,6 @@ import "../style.scss";
         background-color: var(--data-row-black);
         border-radius: 4px;
         border: 1px solid var(--table-white-border);
-        cursor: pointer;
         transition: all 0.3s ease;
         position: relative;
     }
@@ -247,6 +278,7 @@ import "../style.scss";
         border-radius: 4px;
         background-color: var(--background-black);
         transition: all 0.3s ease;
+        cursor: pointer;
     }
 
     .checklist-item.task-item .checkmark {
@@ -296,7 +328,24 @@ import "../style.scss";
     .task-label {
         flex: 1;
         color: var(--text-white-body);
-        user-select: none;
+        cursor: text;
+        outline: none;
+        padding: 2px 4px;
+        border-radius: 2px;
+        transition: all 0.2s ease;
+        min-height: 1.2em;
+    }
+
+    .task-label:focus {
+        background-color: rgba(242, 55%, 40%, 0.1);
+        border: 1px solid var(--blue-shade);
+        padding: 1px 3px;
+    }
+
+    .task-label:empty:before {
+        content: attr(data-placeholder);
+        color: var(--text-white-body);
+        opacity: 0.5;
     }
 
     .checklist-item.task-item .task-label {
@@ -307,6 +356,11 @@ import "../style.scss";
     .checklist-item.minor-item .task-label {
         color: var(--text-white-body);
         font-style: italic;
+    }
+
+    .checklist-item input[type="checkbox"]:checked ~ .task-label:focus {
+        text-decoration: line-through;
+        opacity: 0.8;
     }
 
     .smoothie-details {
