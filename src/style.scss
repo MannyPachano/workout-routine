@@ -116,15 +116,14 @@ body {
                     &::after {
                         content: '';
                         position: absolute;
-                        right: 0;
+                        right: 1.5rem;
                         top: 50%;
-                        margin-top: -4px;
                         width: 7px;
                         height: 7px;
                         border-right: 2px solid currentColor;
                         border-bottom: 2px solid currentColor;
                         opacity: 0.85;
-                        transform: rotate(45deg);
+                        transform: rotate(45deg) translateY(-50%);
                         transition: transform 0.25s ease;
                     }
                 }
