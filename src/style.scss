@@ -150,6 +150,61 @@ body {
 
         }
 
+        .mobility-section {
+            margin-bottom: 2rem;
+
+            .mobility-box {
+                background-color: var(--blue-shade);
+                border-top: solid 1px hsla(241, 55%, 36%, 0.687);
+                border-bottom: solid 1px hsla(243, 55%, 29%, 0.687);
+                border-radius: 4px;
+                padding: 1.5rem 1rem;
+                box-shadow: 2px 2px 8px #00000032;
+                overflow: hidden;
+
+                &[open] {
+                    box-shadow: 0px 0px 8px 2px var(--blue-shade);
+
+                    summary::after {
+                        transform: rotate(-135deg);
+                    }
+                }
+
+                summary {
+                    position: relative;
+                    cursor: pointer;
+                    padding-right: 1.5rem;
+                    list-style: none;
+                    font-weight: 600;
+                    color: var(--text-white-header);
+
+                    &::marker, &::-webkit-details-marker {
+                        display: none !important;
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        right: 1rem;
+                        top: 50%;
+                        width: 7px;
+                        height: 7px;
+                        border-right: 2px solid currentColor;
+                        border-bottom: 2px solid currentColor;
+                        opacity: 0.85;
+                        transform: rotate(45deg) translateY(-50%);
+                        transition: transform 0.25s ease;
+                    }
+                }
+
+                ul {
+                    margin-top: 1rem;
+                    padding-left: 1.5rem;
+                    line-height: 2;
+                }
+            }
+        }
+
         .workout-boxes {
             *:focus {
                 outline: none;
@@ -284,9 +339,21 @@ body {
                         }
                     }
                 }
-                
-                .superset {
-                    padding-left: 24px;
+
+                .superset-group-end td {
+                    border-bottom: 1px solid var(--table-white-border);
+                }
+
+                .superset-label {
+                    font-size: 13px !important;
+                    font-weight: 600;
+                    color: var(--text-white-header);
+                    padding-left: 8px !important;
+                    background-color: hsla(242, 55%, 40%, 0.35) !important;
+                }
+
+                .superset-exercise-name {
+                    padding-left: 24px !important;
                 }
 
                 .mobility-toggle-row {
