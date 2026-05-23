@@ -410,6 +410,14 @@ body {
                     }
                 }
             }
+
+            table.routine-table-has-reps {
+                th:last-child,
+                td:last-child {
+                    min-width: 9rem;
+                    max-width: 18rem;
+                }
+            }
         }
 
     
