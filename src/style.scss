@@ -213,21 +213,37 @@ body {
             details {
                 overflow: hidden;
                 transition: all .35s;
+                margin-top: 16px;
 
-                &[open] summary::after {
-                    transform: rotate(-135deg);
+                &:first-of-type {
+                    margin-top: 0;
+                }
+
+                &[open] {
+                    margin-bottom: 8px;
+
+                    summary::after {
+                        transform: rotate(-135deg);
+                    }
                 }
             }
 
             summary {
                 position: relative;
                 cursor: pointer;
-                padding-right: 1.5rem;
+                padding: 12px 1.5rem 12px 0;
                 list-style: none;
                 transition: all .35s;
 
                 &::marker, &::-webkit-details-marker {
                     display: none !important;
+                }
+
+                h3 {
+                    margin: 0;
+                    display: inline;
+                    font-size: 1.17em;
+                    font-weight: bold;
                 }
 
                 &::after {
