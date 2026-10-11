@@ -276,7 +276,7 @@ body {
             margin-bottom: 8px;
         }
 
-        h1, h2, h3, th {
+        h1, h2, h3, h4, th {
             color: var(--text-white-header) !important;
         }
 
@@ -290,6 +290,16 @@ body {
 
         h3 {
             margin: 40px 0 16px;
+        }
+
+        .workout-session-label {
+            margin: 8px 0 12px;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .workout-container-tables + .workout-session-label {
+            margin-top: 28px;
         }
 
         table {

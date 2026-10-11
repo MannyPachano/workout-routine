@@ -1,0 +1,70 @@
+---
+interface Props {
+    focus: "abs" | "obliques";
+}
+
+const { focus } = Astro.props;
+const title = focus === "abs" ? "workout 2: abs" : "workout 2: obliques";
+---
+
+<h4 class="workout-session-label">{title}</h4>
+<div class="workout-container-tables">
+    <table class="routine-table-has-reps">
+        <thead>
+            <tr>
+                <th>exercise</th>
+                <th>sets</th>
+                <th>reps</th>
+            </tr>
+        </thead>
+        <tbody>
+            {focus === "abs" ? (
+                <>
+                    <tr>
+                        <td>Hanging Knee Raises</td>
+                        <td>5 sets</td>
+                        <td>max</td>
+                    </tr>
+                    <tr>
+                        <td>Roll-Outs</td>
+                        <td>3 sets</td>
+                        <td>10–15</td>
+                    </tr>
+                    <tr>
+                        <td>Weighted Twisting Crunches</td>
+                        <td>3 sets</td>
+                        <td>15–25</td>
+                    </tr>
+                    <tr>
+                        <td>Ab Finisher (Pilates)</td>
+                        <td>—</td>
+                        <td>5 min</td>
+                    </tr>
+                </>
+            ) : (
+                <>
+                    <tr>
+                        <td>Side Hanging Knee Raises</td>
+                        <td>5 sets</td>
+                        <td>max</td>
+                    </tr>
+                    <tr>
+                        <td>Machine Ab Rotations</td>
+                        <td>3 sets</td>
+                        <td>12–15 / side</td>
+                    </tr>
+                    <tr>
+                        <td>Cable Oblique Raises</td>
+                        <td>3 sets</td>
+                        <td>12–15 / side</td>
+                    </tr>
+                    <tr>
+                        <td>Ab Finisher (Pilates)</td>
+                        <td>—</td>
+                        <td>5 min</td>
+                    </tr>
+                </>
+            )}
+        </tbody>
+    </table>
+</div>
