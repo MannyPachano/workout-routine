@@ -60,6 +60,22 @@ const hip = {
     cableAbduction: move("Standing Cable Hip Abductions", "12–15", "per side"),
 };
 
+// Trap exercises paired with back movements
+const trap = {
+    dumbbellShrugs: move("Dumbbell Shrugs", "12–20"),
+    kelsoShrugs: move("Kelso Shrugs", "10–15"),
+    barbellShrugs: move("Barbell Shrugs", "6–10"),
+    lowTrapRaises: move("Single-Arm Cable Lower Trap Raises", "10–15", "per side", "cable strapped around the elbow"),
+};
+
+// Rear delt exercises paired with day 5 lower chest movements
+const rearDelt = {
+    reversePecDeck: move("Reverse Pec Deck Flyes", "12–20"),
+    facePulls: move("Face Pulls", "12–20"),
+    reverseFlyes: move("Bent-Over Dumbbell Reverse Flyes", "12–20"),
+    cableRows: move("Seated Cable Rear Delt Rows", "8–12"),
+};
+
 const stretch5 = (name: string) => timed(name, "5 min");
 
 export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
@@ -83,13 +99,11 @@ export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
         stretch5("Dumbbell Chest Flye Stretch"),
     ],
     lower: [
-        superset(5, move("Decline Chest Press", "12–15"), forearm.wristCurls),
-        superset(3, move("Decline DB Press", "6–10"), forearm.pronationSupination),
-        superset(3, move("Dips", "8–12"), forearm.fingerExtensions),
-        single("Tricep Pushdowns", 3, "8–12"),
-        single("Rope Pushdowns", 3, "10–15"),
+        superset(5, move("Decline Chest Press", "12–15"), rearDelt.reversePecDeck),
+        superset(3, move("Decline DB Press", "6–10"), rearDelt.facePulls),
+        superset(3, move("Dips", "8–12"), rearDelt.reverseFlyes),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
-        superset(3, move("Decline Chest Press", "5–8"), forearm.plateHolds),
+        superset(3, move("Decline Chest Press", "5–8"), rearDelt.cableRows),
         stretch5("Dumbbell Chest Flye Stretch"),
     ],
 };
@@ -110,13 +124,13 @@ export const core: Record<"abs" | "obliques", Item[]> = {
 };
 
 export const back: Item[] = [
-    single("Machine Rows", 5, "12–15"),
-    single("Single-Arm Cable Pulldowns", 3, "6–12"),
-    superset(3, move("T-Bar Rows", "8–12"), move("Kelso Shrugs", "10–15")),
+    superset(5, move("Seated Machine Rows", "12–15"), trap.dumbbellShrugs),
+    superset(3, move("Single-Arm Cable Pulldowns", "6–12", "per side"), trap.lowTrapRaises),
+    superset(3, move("Dumbbell Rows", "8–12"), trap.kelsoShrugs),
     single("Bicep Curls", 3, "8–12"),
     single("Reverse Barbell Curls", 3, "8–12"),
     single("Rear Neck Circuit", 3, "30", "per station", "Flexions · Rotations · Lateral Flexions"),
-    single("Machine Rows", 3, "5–8"),
+    superset(3, move("Seated Machine Rows", "5–8"), trap.barbellShrugs),
     stretch5("Doorway Lat/Shoulders Stretch"),
 ];
 
