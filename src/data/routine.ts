@@ -158,12 +158,12 @@ export const arms: Item[] = [
 ];
 
 export const shoulders: Item[] = [
-    single("Machine Lateral Raises", 5, "12–15"),
-    single("Low Cable Shoulder Press", 3, "6–10"),
-    single("Lu Raises", 3, "12–20"),
-    single("Incline Bench DB Lateral Raises", 3, "12–20"),
-    single("Bent Over DB Lateral Raises", 3, "12–20"),
-    single("Machine Lateral Raises", 3, "5–8"),
+    superset(5, move("Machine Lateral Raises", "12–15"), trap.dumbbellShrugs),
+    superset(3, move("Barbell Shoulder Press", "6–10"), trap.kelsoShrugs),
+    superset(3, move("Lu Raises", "12–20"), trap.lowTrapRaises),
+    single("Isometric Dumbbell Lateral Raise Holds", 3, "20–30 sec"),
+    superset(3, move("Bent Over DB Lateral Raises", "12–20"), trap.dumbbellShrugs),
+    superset(3, move("Machine Lateral Raises", "5–8"), trap.barbellShrugs),
     stretch5("Supported Hangs"),
 ];
 
