@@ -1,0 +1,61 @@
+---
+import type { Item } from "../data/routine";
+
+interface Props {
+    id: string;
+    label?: string;
+    items: Item[];
+}
+
+const { id, label, items } = Astro.props;
+const sub = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ");
+---
+
+<section class="session">
+    {label && <h3 class="session-label">{label}</h3>}
+    <ul class="items">
+        {items.map((item, i) => (
+            <li>
+                <label class={`item item-${item.kind}`}>
+                    <input type="checkbox" class="check" data-key={`${id}-${i}`} />
+                    <span class="mark" aria-hidden="true"></span>
+                    <span class="content">
+                        {item.kind === "single" && (
+                            <>
+                                <span class="line">
+                                    <span class="name">{item.name}</span>
+                                    <span class="scheme">{item.sets}<span class="x"> × </span>{item.reps}</span>
+                                </span>
+                                {sub(item.unit, item.detail) && <span class="sub">{sub(item.unit, item.detail)}</span>}
+                            </>
+                        )}
+                        {item.kind === "superset" && (
+                            <>
+                                <span class="ss-head">
+                                    <span>superset</span>
+                                    <span>{item.sets} sets</span>
+                                </span>
+                                {[item.a, item.b].map((m, n) => (
+                                    <span class="move">
+                                        <span class="letter">{n === 0 ? "A1" : "A2"}</span>
+                                        <span class="move-main">
+                                            <span class="name">{m.name}</span>
+                                            {sub(m.unit, m.detail) && <span class="sub">{sub(m.unit, m.detail)}</span>}
+                                        </span>
+                                        <span class="scheme">{m.reps}</span>
+                                    </span>
+                                ))}
+                            </>
+                        )}
+                        {item.kind === "timed" && (
+                            <span class="line">
+                                <span class="name">{item.name}</span>
+                                <span class="scheme">{item.time}</span>
+                            </span>
+                        )}
+                    </span>
+                </label>
+            </li>
+        ))}
+    </ul>
+</section>

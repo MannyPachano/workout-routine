@@ -1,0 +1,23 @@
+---
+interface Props {
+    n: number;
+    title: string;
+}
+
+const { n, title } = Astro.props;
+---
+
+<details class="day" id={`day-${n}`} data-day={n}>
+    <summary>
+        <h2 class="day-main">
+            <span class="day-num">day {n}</span>
+            <span class="day-title">{title}</span>
+        </h2>
+        <span class="day-progress" data-progress>0/0</span>
+        <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="day-body">
+        <slot />
+        <button type="button" class="reset" data-reset>reset day {n}</button>
+    </div>
+</details>

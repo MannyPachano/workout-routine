@@ -1,460 +1,216 @@
 ---
 import "../style.scss";
+import Day from "../components/Day.astro";
+import Session from "../components/Session.astro";
+import ChestWorkout from "../components/ChestWorkout.astro";
 import SecondSession from "../components/SecondSession.astro";
+import { back, quads, arms, shoulders, glutes, mobility } from "../data/routine";
+
+const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#121212">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>manny workout plan</title>
 </head>
 <body>
-    <div class="container">
-        <a href="#top" id="back-to-top" class="back-to-top">^</a>
-        <section class="mobility-section">
-            <details class="mobility-box">
-                <summary>mobility exercises</summary>
-                <ul>
-                    <li>pigeon stretch</li>
-                    <li>90/90 lift offs</li>
-                    <li>frog stretch</li>
-                    <li>internal hip lift offs</li>
-                    <li>nordic curl stretch</li>
-                    <li>single leg nordic curl pulls</li>
-                    <li>ql raises</li>
-                    <li>split work</li>
-                    <li>slow sumo squats</li>
-                </ul>
-            </details>
-        </section>
-        <section id="phase-1" class="workout-boxes">
-            <details>
-                <summary><h3>day 1: chest & triceps + abs</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Chest Press</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>DB Press</td>
-                            <td>3 sets</td>
-                            <td>6–10</td>
-                        </tr>
-                        <tr>
-                            <td>Incline DB Press</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Tricep Pushdowns</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Rope Pushdowns</td>
-                            <td>3 sets</td>
-                            <td>10–15</td>
-                        </tr>
-                        <tr>
-                            <td>Neck Flexor Circuit</td>
-                            <td>3 sets</td>
-                            <td>30 / exercise</td>
-                        </tr>
-                        <tr>
-                            <td>Chest Press</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Dumbbell Chest Flye Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="abs" />
-            </details>
-            <details>
-                <summary><h3>day 2: back & biceps + obliques</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Machine Rows</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>Single-Arm Cable Pulldowns</td>
-                            <td>3 sets</td>
-                            <td>6–12</td>
-                        </tr>
-                        <tr class="superset-group-start">
-                            <td colspan="3" class="superset-label">superset</td>
-                        </tr>
-                        <tr class="superset-exercise superset-group-end">
-                            <td class="superset-exercise-name">T-Bar Rows · Kelso Shrugs</td>
-                            <td>3 sets</td>
-                            <td>rows 8–12 · shrugs 10–15</td>
-                        </tr>
-                        <tr>
-                            <td>Bicep Curls</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Reverse Barbell Curls</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Rear Neck Circuit · Flexions · Rotations · Lateral Flexions</td>
-                            <td>3 sets</td>
-                            <td>30 / station</td>
-                        </tr>
-                        <tr>
-                            <td>Machine Rows</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Doorway Lat/Shoulders Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="obliques" />
-            </details>
-            <details>
-                <summary><h3>day 3: quads + abs</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Leg Extensions</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>squat jumps</td>
-                            <td>2 sets</td>
-                            <td>5–10</td>
-                        </tr>
-                        <tr>
-                            <td>heiden jumps</td>
-                            <td>2 sets</td>
-                            <td>3–6 / direction/set</td>
-                        </tr>
-                        <tr>
-                            <td>Pistol Squats</td>
-                            <td>3 sets</td>
-                            <td>5–10 / leg</td>
-                        </tr>
-                        <tr>
-                            <td>Reverse Nordic Curls</td>
-                            <td>3 sets</td>
-                            <td>5–10</td>
-                        </tr>
-                        <tr>
-                            <td>Side Lunges</td>
-                            <td>3 sets</td>
-                            <td>6–10 / leg</td>
-                        </tr>
-                        <tr>
-                            <td>tibia raises</td>
-                            <td>3 sets</td>
-                            <td>12–20</td>
-                        </tr>
-                        <tr>
-                            <td>Leg Extensions</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Supported Hip Flexor Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="abs" />
-            </details>
-            <details>
-                <summary><h3>day 4: chest + obliques</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Incline Chest Press</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>Flat DB Flyes</td>
-                            <td>3 sets</td>
-                            <td>6–10</td>
-                        </tr>
-                        <tr>
-                            <td>Underhand Incline DB Press</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>One-Leg Glute Bridge w/ Opposite-Arm DB Press</td>
-                            <td>3 sets</td>
-                            <td>6–10 / side</td>
-                        </tr>
-                        <tr>
-                            <td>Neck Flexor Circuit</td>
-                            <td>3 sets</td>
-                            <td>30 / exercise</td>
-                        </tr>
-                        <tr>
-                            <td>Incline Chest Press</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Dumbbell Chest Flye Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="obliques" />
-            </details>
-            <details>
-                <summary><h3>day 5: arms + abs</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>  
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tricep Extensions</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>Tricep Pushdowns</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>DB Overhead Tricep Extensions</td>
-                            <td>3 sets</td>
-                            <td>10–15</td>
-                        </tr>
-                        <tr>
-                            <td>Barbell Bicep Curls</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Reverse Barbell Curls</td>
-                            <td>3 sets</td>
-                            <td>8–12</td>
-                        </tr>
-                        <tr>
-                            <td>Lateral Neck Circuit · Lateral Flexions · Rotations · Isometric Holds</td>    
-                            <td>3 sets</td>
-                            <td>20 / station · both sides</td>
-                        </tr>
-                        <tr>
-                            <td>Tricep Extensions</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Frog Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="abs" />
-            </details>
-            <details>
-                <summary><h3>day 6: shoulders + obliques</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>  
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Machine Lateral Raises</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>Low Cable Shoulder Press</td>
-                            <td>3 sets</td>
-                            <td>6–10</td>
-                        </tr>
-                        <tr>
-                            <td>Lu Raises</td>
-                            <td>3 sets</td>
-                            <td>12–20</td>
-                        </tr>
-                        <tr>
-                            <td>Incline Bench DB Lateral Raises</td>
-                            <td>3 sets</td>
-                            <td>12–20</td>
-                        </tr>
-                        <tr>
-                            <td>Bent Over DB Lateral Raises</td>
-                            <td>3 sets</td>
-                            <td>12–20</td>
-                        </tr>
-                        <tr>
-                            <td>Machine Lateral Raises</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Supported Hangs</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="obliques" />
-            </details>
-            <details>
-                <summary><h3>day 7: glutes & hamstrings + abs</h3></summary>
-                <div class="workout-container-tables">
-                <table class="routine-table-has-reps">
-                    <thead>
-                        <tr>
-                            <th>exercise</th>  
-                            <th>sets</th>
-                            <th>reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Hamstring Curls</td>
-                            <td>5 sets</td>
-                            <td>12–15</td>
-                        </tr>
-                        <tr>
-                            <td>Hip Thrusts</td>
-                            <td>3 sets</td>
-                            <td>6–12</td>
-                        </tr>
-                        <tr>
-                            <td>Single-Leg Deadlifts</td>
-                            <td>3 sets</td>
-                            <td>6–10 / leg</td>
-                        </tr>
-                        <tr class="superset-group-start">
-                            <td colspan="3" class="superset-label">superset</td>
-                        </tr>
-                        <tr class="superset-exercise superset-group-end">
-                            <td class="superset-exercise-name">Calf Raises · Hyperextensions</td>
-                            <td>3 sets</td>
-                            <td>raises 10–15 · hyperextensions 10–15</td>
-                        </tr>
-                        <tr>
-                            <td>Seated Calf Raises</td>
-                            <td>3 sets</td>
-                            <td>15–25</td>
-                        </tr>
-                        <tr>
-                            <td>Hamstring Curls</td>
-                            <td>3 sets</td>
-                            <td>5–8</td>
-                        </tr>
-                        <tr>
-                            <td>Folded Over Hamstring Stretch</td>
-                            <td>—</td>
-                            <td>5 min</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <SecondSession focus="abs" />
-            </details>
-        </section>
-    </div>
-</body>
-</html>
+    <main class="page" id="top">
+        <h1 class="page-title">workout plan</h1>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+        <nav class="day-nav" aria-label="days">
+            <span class="day-nav-label">day</span>
+            {dayNumbers.map((n) => <a href={`#day-${n}`} data-nav={n}>{n}</a>)}
+        </nav>
 
-        // scroll to top
-        window.addEventListener("scroll", () => {
-            const button = document.getElementById("back-to-top");
-            if (button) {
-                if (window.scrollY > 1200) {
-                    button.style.display = "block";
-                } else {
-                    button.style.display = "none";
-                }
+        <details class="day mobility">
+            <summary>
+                <h2 class="day-main">
+                    <span class="day-title">mobility exercises</span>
+                </h2>
+                <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <ul class="mobility-list">
+                {mobility.map((name) => <li>{name}</li>)}
+            </ul>
+        </details>
+
+        <Day n={1} title="morning chest · evening abs">
+            <ChestWorkout id="d1-am" variant="mid" label="morning: chest" />
+            <SecondSession id="d1-pm" focus="abs" label="evening: abs" />
+        </Day>
+
+        <Day n={2} title="back & biceps · obliques">
+            <Session id="d2-back" label="back & biceps" items={back} />
+            <SecondSession id="d2-obl" focus="obliques" label="obliques" />
+        </Day>
+
+        <Day n={3} title="morning chest · evening quads + abs">
+            <ChestWorkout id="d3-am" variant="incline" label="morning: chest" />
+            <Session id="d3-pm" label="evening: quads" items={quads} />
+            <SecondSession id="d3-abs" focus="abs" label="evening: abs" />
+        </Day>
+
+        <Day n={4} title="chest · obliques">
+            <ChestWorkout id="d4-chest" variant="incline" label="chest" />
+            <SecondSession id="d4-obl" focus="obliques" label="obliques" />
+        </Day>
+
+        <Day n={5} title="morning lower chest · evening arms + abs">
+            <ChestWorkout id="d5-am" variant="lower" label="morning: lower chest" />
+            <Session id="d5-pm" label="evening: arms" items={arms} />
+            <SecondSession id="d5-abs" focus="abs" label="evening: abs" />
+        </Day>
+
+        <Day n={6} title="shoulders · obliques">
+            <Session id="d6-shoulders" label="shoulders" items={shoulders} />
+            <SecondSession id="d6-obl" focus="obliques" label="obliques" />
+        </Day>
+
+        <Day n={7} title="glutes & hamstrings · abs">
+            <Session id="d7-glutes" label="glutes & hamstrings" items={glutes} />
+            <SecondSession id="d7-abs" focus="abs" label="abs" />
+        </Day>
+    </main>
+
+    <button type="button" class="to-top" id="to-top" aria-label="back to top" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+
+    <script>
+        const PROGRESS_KEY = "workout-progress-v1";
+        const OPEN_KEY = "workout-open-day-v1";
+
+        const readProgress = (): Record<string, boolean> => {
+            try {
+                return JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? "{}");
+            } catch {
+                return {};
             }
-        });
-            
-        // section toggle
-        const mobilityDetails = document.querySelectorAll('.mobility-boxes details');
-        mobilityDetails.forEach((targetDetail) => {
-            targetDetail.addEventListener('click', () => {
-                mobilityDetails.forEach((detail) => {
-                if (detail !== targetDetail) detail.removeAttribute('open');
+        };
+        const writeProgress = (data: Record<string, boolean>) => {
+            try {
+                localStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
+            } catch {}
+        };
+        const readOpen = (): string | null => {
+            try {
+                return localStorage.getItem(OPEN_KEY);
+            } catch {
+                return null;
+            }
+        };
+        const writeOpen = (value: string) => {
+            try {
+                if (value) localStorage.setItem(OPEN_KEY, value);
+                else localStorage.removeItem(OPEN_KEY);
+            } catch {}
+        };
+
+        const progress = readProgress();
+        const days = Array.from(document.querySelectorAll<HTMLDetailsElement>("details.day[data-day]"));
+        const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav]"));
+        let ready = false;
+
+        const refresh = (day: HTMLDetailsElement) => {
+            const boxes = Array.from(day.querySelectorAll<HTMLInputElement>(".check"));
+            const done = boxes.filter((box) => box.checked).length;
+            const label = day.querySelector("[data-progress]");
+            if (label) label.textContent = `${done}/${boxes.length}`;
+            day.classList.toggle("complete", boxes.length > 0 && done === boxes.length);
+        };
+
+        const setActiveNav = (n: string | null) => {
+            navLinks.forEach((link) => link.classList.toggle("active", link.dataset.nav === n));
+        };
+
+        days.forEach((day) => {
+            day.querySelectorAll<HTMLInputElement>(".check").forEach((box) => {
+                box.checked = Boolean(progress[box.dataset.key ?? ""]);
+                box.addEventListener("change", () => {
+                    const key = box.dataset.key ?? "";
+                    if (box.checked) progress[key] = true;
+                    else delete progress[key];
+                    writeProgress(progress);
+                    refresh(day);
                 });
             });
+            refresh(day);
+
+            const reset = day.querySelector<HTMLButtonElement>("[data-reset]");
+            let armed: number | undefined;
+            reset?.addEventListener("click", () => {
+                if (!armed) {
+                    const original = reset.textContent;
+                    reset.textContent = "tap again to clear this day";
+                    reset.classList.add("armed");
+                    armed = window.setTimeout(() => {
+                        reset.textContent = original;
+                        reset.classList.remove("armed");
+                        armed = undefined;
+                    }, 3000);
+                    return;
+                }
+                window.clearTimeout(armed);
+                armed = undefined;
+                day.querySelectorAll<HTMLInputElement>(".check").forEach((box) => {
+                    box.checked = false;
+                    delete progress[box.dataset.key ?? ""];
+                });
+                writeProgress(progress);
+                refresh(day);
+                reset.textContent = `reset day ${day.dataset.day}`;
+                reset.classList.remove("armed");
+            });
+
+            day.addEventListener("toggle", () => {
+                if (day.open) {
+                    days.forEach((other) => {
+                        if (other !== day) other.open = false;
+                    });
+                    setActiveNav(day.dataset.day ?? null);
+                    if (ready) {
+                        writeOpen(day.dataset.day ?? "");
+                        requestAnimationFrame(() => day.scrollIntoView({ block: "start" }));
+                    }
+                } else if (!days.some((other) => other.open)) {
+                    setActiveNav(null);
+                    if (ready) writeOpen("");
+                }
+            });
         });
-    })
-  </script>
-  
+
+        navLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const day = days.find((d) => d.dataset.day === link.dataset.nav);
+                if (!day) return;
+                if (day.open) day.scrollIntoView({ block: "start" });
+                else day.open = true;
+            });
+        });
+
+        const stored = readOpen();
+        const initial = days.find((d) => d.dataset.day === (stored ?? "1"));
+        if (initial) initial.open = true;
+        window.setTimeout(() => {
+            ready = true;
+        }, 300);
+
+        const toTop = document.getElementById("to-top");
+        toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+        window.addEventListener(
+            "scroll",
+            () => {
+                if (toTop) toTop.hidden = window.scrollY < 700;
+            },
+            { passive: true }
+        );
+    </script>
+</body>
+</html>

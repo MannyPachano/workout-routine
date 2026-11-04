@@ -1,0 +1,14 @@
+---
+import Session from "./Session.astro";
+import { chest } from "../data/routine";
+
+interface Props {
+    id: string;
+    variant: "mid" | "incline" | "lower";
+    label?: string;
+}
+
+const { id, variant, label } = Astro.props;
+---
+
+<Session id={id} label={label} items={chest[variant]} />
