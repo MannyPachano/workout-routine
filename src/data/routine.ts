@@ -37,7 +37,7 @@ const single = (name: string, sets: number, reps: string, unit?: string, detail?
 const superset = (sets: number, a: Move, b: Move): Superset => ({ kind: "superset", sets, a, b });
 const timed = (name: string, time: string): Timed => ({ kind: "timed", name, time });
 
-// Forearm exercises paired with chest movements
+// Forearm exercises, done as supersets with abs or oblique exercises
 const forearm = {
     wristCurls: move("Wrist Curls", "12–20"),
     reverseWristCurls: move("Reverse Wrist Curls", "12–20"),
@@ -48,7 +48,7 @@ const forearm = {
     plateHolds: move("Plate Pinch Holds", "30–45 sec"),
 };
 
-// Hip strengtheners paired with leg movements
+// Hip strengtheners, done as supersets with abs or oblique exercises
 const hip = {
     sideLyingAbduction: move("Side-Lying Hip Abductions", "15–20", "per side"),
     sideLyingAbductionHeavy: move("Side-Lying Hip Abductions", "8–12", "per side", "ankle weight"),
@@ -60,7 +60,7 @@ const hip = {
     cableAbduction: move("Standing Cable Hip Abductions", "12–15", "per side"),
 };
 
-// Trap exercises paired with back movements
+// Trap exercises, done as supersets with abs or oblique exercises
 const trap = {
     dumbbellShrugs: move("Dumbbell Shrugs", "12–20"),
     kelsoShrugs: move("Kelso Shrugs", "10–15"),
@@ -68,7 +68,7 @@ const trap = {
     lowTrapRaises: move("Single-Arm Cable Lower Trap Raises", "10–15", "per side", "cable strapped around the elbow"),
 };
 
-// Rear delt exercises paired with day 5 lower chest movements
+// Rear delt exercises, done as supersets with abs exercises
 const rearDelt = {
     reversePecDeck: move("Reverse Pec Deck Flyes", "12–20"),
     facePulls: move("Face Pulls", "12–20"),
@@ -76,73 +76,94 @@ const rearDelt = {
     cableRows: move("Seated Cable Rear Delt Rows", "8–12"),
 };
 
+// Abs and oblique exercises that the accessory work above is paired with.
+// A session uses the first N of these, in this order.
+const absMoves: Move[] = [
+    move("Hanging Knee Raises", "max"),
+    move("Roll-Outs", "10–15"),
+    move("Weighted Twisting Crunches", "15–25"),
+    move("Cable Crunches", "12–20"),
+    move("Decline Sit-Ups", "12–20"),
+    move("Reverse Crunches", "12–20"),
+    move("Hanging Leg Raises", "8–15"),
+    move("Hollow Body Holds", "30–45 sec"),
+];
+
+const obliqueMoves: Move[] = [
+    move("Side Hanging Knee Raises", "max"),
+    move("Machine Ab Rotations", "12–15", "per side"),
+    move("Cable Oblique Raises", "12–15", "per side"),
+    move("Pallof Presses", "10–15", "per side"),
+    move("Cable Woodchops", "12–15", "per side"),
+];
+
+type Pair = { sets: number; move: Move };
+const pair = (sets: number, m: Move): Pair => ({ sets, move: m });
+
+// Every accessory exercise becomes a superset with the next abs or oblique exercise.
+const coreSession = (pool: Move[], accessories: Pair[]): Item[] => {
+    if (accessories.length > pool.length) {
+        throw new Error(`Need ${accessories.length} abs or oblique exercises, only ${pool.length} defined`);
+    }
+    return [
+        ...accessories.map((a, i) => superset(a.sets, pool[i], a.move)),
+        timed("Ab Finisher (Pilates)", "5 min"),
+    ];
+};
+
 const stretch5 = (name: string) => timed(name, "5 min");
 
+// Main workouts: plain exercises only. Supersets live in the abs sessions below.
 export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
     mid: [
-        superset(5, move("Chest Press", "12–15"), forearm.wristCurls),
-        superset(3, move("DB Press", "6–10"), forearm.reverseWristCurls),
-        superset(3, move("Incline DB Press", "8–12"), forearm.pronationSupination),
+        single("Chest Press", 5, "12–15"),
+        single("DB Press", 3, "6–10"),
+        single("Incline DB Press", 3, "8–12"),
         single("Tricep Pushdowns", 3, "8–12"),
         single("Rope Pushdowns", 3, "10–15"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
-        superset(3, move("Chest Press", "5–8"), forearm.plateHolds),
+        single("Chest Press", 3, "5–8"),
         stretch5("Dumbbell Chest Flye Stretch"),
     ],
     incline: [
-        superset(5, move("Incline Chest Press", "12–15"), forearm.fingerCurls),
-        superset(3, move("Flat DB Flyes", "6–10"), forearm.reverseWristCurls),
-        superset(3, move("Underhand Incline DB Press", "8–12"), forearm.deviations),
-        superset(3, move("One-Leg Glute Bridge w/ Opposite-Arm DB Press", "6–10", "per side"), forearm.fingerExtensions),
+        single("Incline Chest Press", 5, "12–15"),
+        single("Flat DB Flyes", 3, "6–10"),
+        single("Underhand Incline DB Press", 3, "8–12"),
+        single("One-Leg Glute Bridge w/ Opposite-Arm DB Press", 3, "6–10", "per side"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
-        superset(3, move("Incline Chest Press", "5–8"), forearm.plateHolds),
+        single("Incline Chest Press", 3, "5–8"),
         stretch5("Dumbbell Chest Flye Stretch"),
     ],
     lower: [
-        superset(5, move("Decline Chest Press", "12–15"), rearDelt.reversePecDeck),
-        superset(3, move("Decline DB Press", "6–10"), rearDelt.facePulls),
-        superset(3, move("Dips", "8–12"), rearDelt.reverseFlyes),
+        single("Decline Chest Press", 5, "12–15"),
+        single("Decline DB Press", 3, "6–10"),
+        single("Dips", 3, "8–12"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
-        superset(3, move("Decline Chest Press", "5–8"), rearDelt.cableRows),
+        single("Decline Chest Press", 3, "5–8"),
         stretch5("Dumbbell Chest Flye Stretch"),
-    ],
-};
-
-export const core: Record<"abs" | "obliques", Item[]> = {
-    abs: [
-        single("Hanging Knee Raises", 5, "max"),
-        single("Roll-Outs", 3, "10–15"),
-        single("Weighted Twisting Crunches", 3, "15–25"),
-        timed("Ab Finisher (Pilates)", "5 min"),
-    ],
-    obliques: [
-        single("Side Hanging Knee Raises", 5, "max"),
-        single("Machine Ab Rotations", 3, "12–15", "per side"),
-        single("Cable Oblique Raises", 3, "12–15", "per side"),
-        timed("Ab Finisher (Pilates)", "5 min"),
     ],
 };
 
 export const back: Item[] = [
-    superset(5, move("Seated Machine Rows", "12–15"), trap.dumbbellShrugs),
-    superset(3, move("Single-Arm Cable Pulldowns", "6–12", "per side"), trap.lowTrapRaises),
-    superset(3, move("Dumbbell Rows", "8–12"), trap.kelsoShrugs),
+    single("Seated Machine Rows", 5, "12–15"),
+    single("Single-Arm Cable Pulldowns", 3, "6–12", "per side"),
+    single("Dumbbell Rows", 3, "8–12"),
     single("Bicep Curls", 3, "8–12"),
     single("Reverse Barbell Curls", 3, "8–12"),
     single("Rear Neck Circuit", 3, "30", "per station", "Flexions · Rotations · Lateral Flexions"),
-    superset(3, move("Seated Machine Rows", "5–8"), trap.barbellShrugs),
+    single("Seated Machine Rows", 3, "5–8"),
     stretch5("Doorway Lat/Shoulders Stretch"),
 ];
 
 export const quads: Item[] = [
-    superset(5, move("Leg Extensions", "12–15"), hip.sideLyingAbduction),
-    superset(2, move("Squat Jumps", "5–10"), hip.clamshells),
-    superset(2, move("Heiden Jumps", "3–6", "per direction"), hip.hipFlexion),
-    superset(3, move("Pistol Squats", "5–10", "per leg"), hip.fireHydrants),
-    superset(3, move("Reverse Nordic Curls", "5–10"), hip.copenhagen),
-    superset(3, move("Side Lunges", "6–10", "per leg"), hip.lateralWalks),
-    superset(3, move("Tibialis Raises", "12–20"), hip.cableAbduction),
-    superset(3, move("Leg Extensions", "5–8"), hip.sideLyingAbductionHeavy),
+    single("Leg Extensions", 5, "12–15"),
+    single("Squat Jumps", 2, "5–10"),
+    single("Heiden Jumps", 2, "3–6", "per direction"),
+    single("Pistol Squats", 3, "5–10", "per leg"),
+    single("Reverse Nordic Curls", 3, "5–10"),
+    single("Side Lunges", 3, "6–10", "per leg"),
+    single("Tibialis Raises", 3, "12–20"),
+    single("Leg Extensions", 3, "5–8"),
     stretch5("Supported Hip Flexor Stretch"),
 ];
 
@@ -158,24 +179,79 @@ export const arms: Item[] = [
 ];
 
 export const shoulders: Item[] = [
-    superset(5, move("Machine Lateral Raises", "12–15"), trap.dumbbellShrugs),
-    superset(3, move("Barbell Shoulder Press", "6–10"), trap.kelsoShrugs),
-    superset(3, move("Lu Raises", "12–20"), trap.lowTrapRaises),
+    single("Machine Lateral Raises", 5, "12–15"),
+    single("Barbell Shoulder Press", 3, "6–10"),
+    single("Lu Raises", 3, "12–20"),
     single("Isometric Dumbbell Lateral Raise Holds", 3, "20–30 sec"),
-    superset(3, move("Bent Over DB Lateral Raises", "12–20"), trap.dumbbellShrugs),
-    superset(3, move("Machine Lateral Raises", "5–8"), trap.barbellShrugs),
+    single("Bent Over DB Lateral Raises", 3, "12–20"),
+    single("Machine Lateral Raises", 3, "5–8"),
     stretch5("Supported Hangs"),
 ];
 
 export const glutes: Item[] = [
-    superset(5, move("Hamstring Curls", "12–15"), hip.lateralWalks),
-    superset(3, move("Hip Thrusts", "6–12"), hip.clamshells),
-    superset(3, move("Single-Leg Deadlifts", "6–10", "per leg"), hip.sideLyingAbduction),
-    superset(3, move("Calf Raises", "10–15"), move("Hyperextensions", "10–15")),
-    superset(3, move("Seated Calf Raises", "15–25"), hip.fireHydrants),
-    superset(3, move("Hamstring Curls", "5–8"), hip.hipFlexion),
+    single("Hamstring Curls", 5, "12–15"),
+    single("Hip Thrusts", 3, "6–12"),
+    single("Single-Leg Deadlifts", 3, "6–10", "per leg"),
+    single("Calf Raises", 3, "10–15"),
+    single("Hyperextensions", 3, "10–15"),
+    single("Seated Calf Raises", 3, "15–25"),
+    single("Hamstring Curls", 3, "5–8"),
     stretch5("Folded Over Hamstring Stretch"),
 ];
+
+// Abs and oblique sessions, one per day. Set counts match the main exercise
+// each accessory used to be paired with.
+export const core = {
+    d1: coreSession(absMoves, [
+        pair(5, forearm.wristCurls),
+        pair(3, forearm.reverseWristCurls),
+        pair(3, forearm.pronationSupination),
+        pair(3, forearm.plateHolds),
+    ]),
+    d2: coreSession(obliqueMoves, [
+        pair(5, trap.dumbbellShrugs),
+        pair(3, trap.lowTrapRaises),
+        pair(3, trap.kelsoShrugs),
+        pair(3, trap.barbellShrugs),
+    ]),
+    d3: coreSession(absMoves, [
+        pair(5, hip.sideLyingAbduction),
+        pair(2, hip.clamshells),
+        pair(2, hip.hipFlexion),
+        pair(3, hip.fireHydrants),
+        pair(3, hip.copenhagen),
+        pair(3, hip.lateralWalks),
+        pair(3, hip.cableAbduction),
+        pair(3, hip.sideLyingAbductionHeavy),
+    ]),
+    d4: coreSession(obliqueMoves, [
+        pair(5, forearm.fingerCurls),
+        pair(3, forearm.reverseWristCurls),
+        pair(3, forearm.deviations),
+        pair(3, forearm.fingerExtensions),
+        pair(3, forearm.plateHolds),
+    ]),
+    d5: coreSession(absMoves, [
+        pair(5, rearDelt.reversePecDeck),
+        pair(3, rearDelt.facePulls),
+        pair(3, rearDelt.reverseFlyes),
+        pair(3, rearDelt.cableRows),
+    ]),
+    d6: coreSession(obliqueMoves, [
+        pair(5, trap.dumbbellShrugs),
+        pair(3, trap.kelsoShrugs),
+        pair(3, trap.lowTrapRaises),
+        pair(3, trap.dumbbellShrugs),
+        pair(3, trap.barbellShrugs),
+    ]),
+    d7: coreSession(absMoves, [
+        pair(5, hip.lateralWalks),
+        pair(3, hip.clamshells),
+        pair(3, hip.sideLyingAbduction),
+        pair(3, hip.fireHydrants),
+        pair(3, hip.hipFlexion),
+    ]),
+};
 
 export const mobility: string[] = [
     "Pigeon Stretch",

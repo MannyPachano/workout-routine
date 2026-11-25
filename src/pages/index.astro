@@ -42,38 +42,38 @@ const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
 
         <Day n={1} title="morning chest · evening abs">
             <ChestWorkout id="d1-am" variant="mid" label="morning: chest" />
-            <SecondSession id="d1-pm" focus="abs" label="evening: abs" />
+            <SecondSession id="d1-pm" day="d1" label="evening: abs + forearms" />
         </Day>
 
         <Day n={2} title="back & biceps · obliques">
             <Session id="d2-back" label="back & biceps" items={back} />
-            <SecondSession id="d2-obl" focus="obliques" label="obliques" />
+            <SecondSession id="d2-obl" day="d2" label="obliques + traps" />
         </Day>
 
         <Day n={3} title="quads · abs">
             <Session id="d3-pm" label="quads" items={quads} />
-            <SecondSession id="d3-abs" focus="abs" label="abs" />
+            <SecondSession id="d3-abs" day="d3" label="abs + hips" />
         </Day>
 
         <Day n={4} title="chest · obliques">
             <ChestWorkout id="d4-chest" variant="incline" label="chest" />
-            <SecondSession id="d4-obl" focus="obliques" label="obliques" />
+            <SecondSession id="d4-obl" day="d4" label="obliques + forearms" />
         </Day>
 
         <Day n={5} title="morning lower chest · evening arms + abs">
             <ChestWorkout id="d5-am" variant="lower" label="morning: lower chest" />
             <Session id="d5-pm" label="evening: arms" items={arms} />
-            <SecondSession id="d5-abs" focus="abs" label="evening: abs" />
+            <SecondSession id="d5-abs" day="d5" label="evening: abs + rear delts" />
         </Day>
 
         <Day n={6} title="shoulders · obliques">
             <Session id="d6-shoulders" label="shoulders" items={shoulders} />
-            <SecondSession id="d6-obl" focus="obliques" label="obliques" />
+            <SecondSession id="d6-obl" day="d6" label="obliques + traps" />
         </Day>
 
         <Day n={7} title="glutes & hamstrings · abs">
             <Session id="d7-glutes" label="glutes & hamstrings" items={glutes} />
-            <SecondSession id="d7-abs" focus="abs" label="abs" />
+            <SecondSession id="d7-abs" day="d7" label="abs + hips" />
         </Day>
     </main>
 
@@ -82,7 +82,7 @@ const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
     </button>
 
     <script>
-        const PROGRESS_KEY = "workout-progress-v1";
+        const PROGRESS_KEY = "workout-progress-v2";
         const OPEN_KEY = "workout-open-day-v1";
 
         const readProgress = (): Record<string, boolean> => {

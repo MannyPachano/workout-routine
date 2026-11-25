@@ -4,11 +4,11 @@ import { core } from "../data/routine";
 
 interface Props {
     id: string;
-    focus: "abs" | "obliques";
-    label?: string;
+    day: keyof typeof core;
+    label: string;
 }
 
-const { id, focus, label } = Astro.props;
+const { id, day, label } = Astro.props;
 ---
 
-<Session id={id} label={label ?? focus} items={core[focus]} />
+<Session id={id} label={label} items={core[day]} />
