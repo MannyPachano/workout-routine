@@ -98,8 +98,6 @@ const coreSession = (base: Base[], partners: (Move | null)[]): Item[] => [
     timed("Ab Finisher (Pilates)", "5 min"),
 ];
 
-const stretch5 = (name: string) => timed(name, "5 min");
-
 // Main workouts: plain exercises only. Supersets live in the abs sessions below.
 export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
     mid: [
@@ -110,7 +108,6 @@ export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
         single("Rope Pushdowns", 3, "10–15"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
         single("Chest Press", 3, "5–8"),
-        stretch5("Dumbbell Chest Flye Stretch"),
     ],
     incline: [
         single("Incline Chest Press", 5, "12–15"),
@@ -119,7 +116,6 @@ export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
         single("One-Leg Glute Bridge w/ Opposite-Arm DB Press", 3, "6–10", "per side"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
         single("Incline Chest Press", 3, "5–8"),
-        stretch5("Dumbbell Chest Flye Stretch"),
     ],
     lower: [
         single("Decline Chest Press", 5, "12–15"),
@@ -127,7 +123,6 @@ export const chest: Record<"mid" | "incline" | "lower", Item[]> = {
         single("Dips", 3, "8–12"),
         single("Neck Flexor Circuit", 3, "30", "per exercise"),
         single("Decline Chest Press", 3, "5–8"),
-        stretch5("Dumbbell Chest Flye Stretch"),
     ],
 };
 
@@ -139,19 +134,16 @@ export const back: Item[] = [
     single("Reverse Barbell Curls", 3, "8–12"),
     single("Rear Neck Circuit", 3, "30", "per station", "Flexions · Rotations · Lateral Flexions"),
     single("Seated Machine Rows", 3, "5–8"),
-    stretch5("Doorway Lat/Shoulders Stretch"),
 ];
 
 export const quads: Item[] = [
     single("Leg Extensions", 5, "12–15"),
-    single("Squat Jumps", 2, "5–10"),
-    single("Heiden Jumps", 2, "3–6", "per direction"),
-    single("Pistol Squats", 3, "5–10", "per leg"),
-    single("Reverse Nordic Curls", 3, "5–10"),
+    single("Depth Jumps", 2, "3–6"),
     single("Side Lunges", 3, "6–10", "per leg"),
+    single("Horse Stance Squats", 3, "10–15"),
+    single("Pistol Squats", 3, "5–10", "per leg", "holding the other ankle to your glute"),
+    single("Reverse Nordic Curls", 3, "5–10"),
     single("Tibialis Raises", 3, "12–20"),
-    single("Leg Extensions", 3, "5–8"),
-    stretch5("Supported Hip Flexor Stretch"),
 ];
 
 export const arms: Item[] = [
@@ -162,7 +154,6 @@ export const arms: Item[] = [
     single("Reverse Barbell Curls", 3, "8–12"),
     single("Lateral Neck Circuit", 3, "20", "per station, both sides", "Lateral Flexions · Rotations · Isometric Holds"),
     single("Tricep Extensions", 3, "5–8"),
-    stretch5("Frog Stretch"),
 ];
 
 export const shoulders: Item[] = [
@@ -172,7 +163,6 @@ export const shoulders: Item[] = [
     single("Isometric Dumbbell Lateral Raise Holds", 3, "20–30 sec"),
     single("Bent Over DB Lateral Raises", 3, "12–20"),
     single("Machine Lateral Raises", 3, "5–8"),
-    stretch5("Supported Hangs"),
 ];
 
 export const glutes: Item[] = [
@@ -183,7 +173,6 @@ export const glutes: Item[] = [
     single("Hyperextensions", 3, "10–15"),
     single("Seated Calf Raises", 3, "15–25"),
     single("Hamstring Curls", 3, "5–8"),
-    stretch5("Folded Over Hamstring Stretch"),
 ];
 
 // Abs and oblique sessions, one per day. Hanging raises are paired with
