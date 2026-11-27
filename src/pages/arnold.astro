@@ -1,0 +1,289 @@
+---
+import "../style.scss";
+import ArnoldBlock from "../components/ArnoldBlock.astro";
+import { workouts, week, sessionSets } from "../data/arnold";
+
+const navDays = [...week.map((d) => d.key), "sun"];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#121212">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Arnold's routine</title>
+</head>
+<body>
+    <main class="page" id="top">
+        <a class="back-link" href="/">my workout plan</a>
+        <h1 class="page-title">Arnold Schwarzenegger's routine</h1>
+        <p class="page-intro">His prime double split: workout A and workout B alternate Monday to Saturday, each with a morning and an afternoon session. Sunday is off. Today opens on its own.</p>
+
+        <nav class="day-nav week" aria-label="days">
+            {navDays.map((k) => <a href={`#day-${k}`} data-nav={k}>{k}</a>)}
+        </nav>
+
+        <details class="day guide">
+            <summary>
+                <h2 class="day-main">
+                    <span class="day-title">how to run this routine</span>
+                </h2>
+                <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <ul class="guide-list">
+                <li><strong>Supersets:</strong> do both exercises back to back with no rest, then rest 60 sec. Finish every round of one superset before starting the next, and rest 2 to 3 min between supersets.</li>
+                <li><strong>Pyramids:</strong> add weight as the reps drop. The highlighted number is the target for the round you are on.</li>
+                <li><strong>Tempo:</strong> about 2 sec lowering and 1 to 2 sec lifting.</li>
+                <li><strong>Effort:</strong> take the last sets of each exercise close to failure, and add weight as you get stronger.</li>
+                <li><strong>Spacing:</strong> leave 4 to 6 hours between the morning and afternoon sessions.</li>
+                <li><strong>Tracking:</strong> tap a set or round when it is done. The rest timer starts on its own and buzzes when rest is over.</li>
+            </ul>
+            <p class="guide-note">About 89 working sets a day and 534 a week, for 14 to 20 hours of training a week. This is a competition bodybuilding load and is more than most natural lifters can recover from. The routine is reconstructed from Arnold's published training, so rest times and session lengths are estimates.</p>
+        </details>
+
+        {week.map((d) => {
+            const w = workouts[d.workout];
+            const total = w.sessions.reduce((n, s) => n + sessionSets(s), 0);
+            return (
+                <details class="day" id={`day-${d.key}`} data-day={d.key}>
+                    <summary>
+                        <h2 class="day-main">
+                            <span class="day-num">{d.name} · workout {w.key}</span>
+                            <span class="day-title">{w.sessions.map((s) => s.title).join(" · ")}</span>
+                        </h2>
+                        <span class="day-progress" data-progress>0/{total}</span>
+                        <span class="chev" aria-hidden="true"></span>
+                    </summary>
+                    <div class="day-body">
+                        {w.sessions.map((s, si) => (
+                            <section class="session">
+                                <h3 class="session-label">{s.when}: {s.title}</h3>
+                                <p class="session-meta">{s.time} · {sessionSets(s)} working sets</p>
+                                {s.sections.map((sec, xi) => (
+                                    <>
+                                        {sec.label && <h4 class="section-label">{sec.label}</h4>}
+                                        <div class="lifts">
+                                            {sec.blocks.map((b, bi) => (
+                                                <ArnoldBlock id={`${d.key}-${si}-${xi}-${bi}`} block={b} />
+                                            ))}
+                                        </div>
+                                    </>
+                                ))}
+                            </section>
+                        ))}
+                        <button type="button" class="reset" data-reset>reset {d.name}</button>
+                    </div>
+                </details>
+            );
+        })}
+
+        <details class="day" id="day-sun" data-day="sun">
+            <summary>
+                <h2 class="day-main">
+                    <span class="day-num">sunday</span>
+                    <span class="day-title">rest day</span>
+                </h2>
+                <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <p class="rest-day-text">No weight training. Eat well and get plenty of sleep so you recover for Monday.</p>
+        </details>
+    </main>
+
+    <div class="rest-timer" id="rest-timer" hidden>
+        <span class="rest-label" id="rest-label">rest</span>
+        <span class="rest-time" id="rest-time">0:00</span>
+        <button type="button" id="rest-add">+15 sec</button>
+        <button type="button" id="rest-skip">skip</button>
+    </div>
+
+    <button type="button" class="to-top" id="to-top" aria-label="back to top" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+
+    <script>
+        const KEY = "arnold-progress-v1";
+
+        const read = (): Record<string, boolean> => {
+            try {
+                return JSON.parse(localStorage.getItem(KEY) ?? "{}");
+            } catch {
+                return {};
+            }
+        };
+        const write = (data: Record<string, boolean>) => {
+            try {
+                localStorage.setItem(KEY, JSON.stringify(data));
+            } catch {}
+        };
+
+        const progress = read();
+        const days = Array.from(document.querySelectorAll<HTMLDetailsElement>("details.day[data-day]"));
+        const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav]"));
+        const pressed = (b: Element) => b.getAttribute("aria-pressed") === "true";
+        let ready = false;
+
+        // Rest timer
+        const timer = document.getElementById("rest-timer")!;
+        const timeEl = document.getElementById("rest-time")!;
+        const labelEl = document.getElementById("rest-label")!;
+        let end = 0;
+        let tick: number | undefined;
+        let hideLater: number | undefined;
+
+        const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+        const hideTimer = () => {
+            window.clearInterval(tick);
+            timer.hidden = true;
+            document.body.classList.remove("timing");
+        };
+        const step = () => {
+            const left = Math.ceil((end - Date.now()) / 1000);
+            if (left > 0) {
+                timeEl.textContent = fmt(left);
+                labelEl.textContent = "rest";
+                timer.classList.remove("over");
+                return;
+            }
+            window.clearInterval(tick);
+            timeEl.textContent = "0:00";
+            labelEl.textContent = "rest over";
+            timer.classList.add("over");
+            try {
+                navigator.vibrate?.([200, 100, 200]);
+            } catch {}
+            hideLater = window.setTimeout(hideTimer, 5000);
+        };
+        const startTimer = (seconds: number) => {
+            window.clearTimeout(hideLater);
+            window.clearInterval(tick);
+            end = Date.now() + seconds * 1000;
+            timer.hidden = false;
+            document.body.classList.add("timing");
+            step();
+            tick = window.setInterval(step, 250);
+        };
+        document.getElementById("rest-add")?.addEventListener("click", () => {
+            if (end < Date.now()) end = Date.now();
+            end += 15000;
+            window.clearTimeout(hideLater);
+            window.clearInterval(tick);
+            step();
+            tick = window.setInterval(step, 250);
+        });
+        document.getElementById("rest-skip")?.addEventListener("click", hideTimer);
+
+        // Progress
+        const refreshLift = (lift: Element) => {
+            const sets = Array.from(lift.querySelectorAll("[data-set]"));
+            const next = sets.findIndex((b) => !pressed(b));
+            lift.classList.toggle("done", next === -1);
+            sets.forEach((b, i) => b.classList.toggle("next", i === next));
+            lift.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => el.classList.toggle("now", Number(el.dataset.step) === next));
+        };
+        const refreshDay = (day: HTMLDetailsElement) => {
+            // A superset round counts as two working sets
+            const sets = Array.from(day.querySelectorAll<HTMLElement>("[data-set]:not([data-extra])"));
+            const weight = (b: HTMLElement) => Number(b.dataset.sets ?? 1);
+            const total = sets.reduce((n, b) => n + weight(b), 0);
+            const done = sets.filter(pressed).reduce((n, b) => n + weight(b), 0);
+            const label = day.querySelector("[data-progress]");
+            if (label) label.textContent = `${done}/${total}`;
+            day.classList.toggle("complete", total > 0 && done === total);
+        };
+        const setActiveNav = (k: string | null) => navLinks.forEach((a) => a.classList.toggle("active", a.dataset.nav === k));
+
+        days.forEach((day) => {
+            day.querySelectorAll<HTMLElement>("[data-lift]").forEach((lift) => {
+                lift.querySelectorAll<HTMLButtonElement>("[data-set]").forEach((btn) => {
+                    btn.setAttribute("aria-pressed", String(Boolean(progress[btn.dataset.key ?? ""])));
+                    btn.addEventListener("click", () => {
+                        const on = !pressed(btn);
+                        btn.setAttribute("aria-pressed", String(on));
+                        const key = btn.dataset.key ?? "";
+                        if (on) progress[key] = true;
+                        else delete progress[key];
+                        write(progress);
+                        refreshLift(lift);
+                        refreshDay(day);
+                        const rest = Number(lift.dataset.rest ?? 0);
+                        if (on && rest > 0) startTimer(rest);
+                    });
+                });
+                refreshLift(lift);
+            });
+            refreshDay(day);
+
+            const reset = day.querySelector<HTMLButtonElement>("[data-reset]");
+            let armed: number | undefined;
+            reset?.addEventListener("click", () => {
+                const original = `reset ${day.querySelector(".day-num")?.textContent?.split(" ·")[0] ?? "day"}`;
+                if (!armed) {
+                    reset.textContent = "tap again to clear this day";
+                    reset.classList.add("armed");
+                    armed = window.setTimeout(() => {
+                        reset.textContent = original;
+                        reset.classList.remove("armed");
+                        armed = undefined;
+                    }, 3000);
+                    return;
+                }
+                window.clearTimeout(armed);
+                armed = undefined;
+                day.querySelectorAll<HTMLButtonElement>("[data-set]").forEach((b) => {
+                    b.setAttribute("aria-pressed", "false");
+                    delete progress[b.dataset.key ?? ""];
+                });
+                write(progress);
+                day.querySelectorAll("[data-lift]").forEach(refreshLift);
+                refreshDay(day);
+                reset.textContent = original;
+                reset.classList.remove("armed");
+            });
+
+            day.addEventListener("toggle", () => {
+                if (day.open) {
+                    days.forEach((other) => {
+                        if (other !== day) other.open = false;
+                    });
+                    setActiveNav(day.dataset.day ?? null);
+                    if (ready) requestAnimationFrame(() => day.scrollIntoView({ block: "start" }));
+                } else if (!days.some((d) => d.open)) {
+                    setActiveNav(null);
+                }
+            });
+        });
+
+        navLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const day = days.find((d) => d.dataset.day === link.dataset.nav);
+                if (!day) return;
+                if (day.open) day.scrollIntoView({ block: "start" });
+                else day.open = true;
+            });
+        });
+
+        // Open today's day
+        const today = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][new Date().getDay()];
+        navLinks.find((a) => a.dataset.nav === today)?.classList.add("today");
+        const todayCard = days.find((d) => d.dataset.day === today);
+        if (todayCard) todayCard.open = true;
+        window.setTimeout(() => {
+            ready = true;
+        }, 300);
+
+        const toTop = document.getElementById("to-top");
+        toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+        window.addEventListener(
+            "scroll",
+            () => {
+                if (toTop) toTop.hidden = window.scrollY < 700;
+            },
+            { passive: true }
+        );
+    </script>
+</body>
+</html>

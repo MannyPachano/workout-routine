@@ -1,0 +1,75 @@
+---
+import type { Block } from "../data/arnold";
+
+interface Props {
+    id: string;
+    block: Block;
+}
+
+const { id, block } = Astro.props;
+const same = (reps: string[]) => reps.every((r) => r === reps[0]);
+---
+
+{block.kind === "superset" ? (
+    <div class="lift lift-superset" data-lift data-rest={block.rest}>
+        <div class="ss-head">
+            <span>superset {block.letter}</span>
+            <span>{block.a.reps.length} rounds</span>
+        </div>
+        {[block.a, block.b].map((m, n) => (
+            <div class="move">
+                <span class="letter">{block.letter}{n + 1}</span>
+                <span class="move-main">
+                    <span class="name">{m.name}</span>
+                    {same(m.reps) ? (
+                        <span class="pyr">{m.reps[0]} reps every round</span>
+                    ) : (
+                        <span class="pyr">
+                            {m.reps.map((r, s) => (
+                                <>
+                                    {s > 0 && <span class="dot"> · </span>}
+                                    <span class="step" data-step={s}>{r}</span>
+                                </>
+                            ))}
+                        </span>
+                    )}
+                </span>
+            </div>
+        ))}
+        <span class="sub">no rest between the two · rest {block.restLabel}</span>
+        <div class="sets">
+            {block.a.reps.map((_, s) => (
+                <button type="button" class="set" data-set data-sets="2" data-key={`${id}-${s}`} aria-pressed="false" aria-label={`round ${s + 1}`}>
+                    <span class="set-n">round</span>
+                    <span class="set-r">{s + 1}</span>
+                </button>
+            ))}
+        </div>
+    </div>
+) : (
+    <div class={`lift${block.extra ? " lift-extra" : ""}`} data-lift data-rest={block.rest}>
+        <div class="lift-head">
+            <span class="name">{block.name}</span>
+            <span class="scheme">
+                {block.reps.length === 1 ? block.reps[0] : same(block.reps) ? <>{block.reps.length}<span class="x"> × </span>{block.reps[0]}</> : `${block.reps.length} sets`}
+            </span>
+        </div>
+        {(block.note || block.restLabel) && (
+            <span class="sub">{[block.note, block.restLabel && `rest ${block.restLabel}`].filter(Boolean).join(" · ")}</span>
+        )}
+        <div class="sets">
+            {block.reps.map((r, s) => (
+                <button type="button" class="set" data-set data-key={`${id}-${s}`} data-extra={block.extra ? "" : undefined} aria-pressed="false" aria-label={`set ${s + 1}, ${r}`}>
+                    {block.extra ? (
+                        <span class="set-r">done</span>
+                    ) : (
+                        <>
+                            <span class="set-n">set {s + 1}</span>
+                            <span class="set-r">{r}</span>
+                        </>
+                    )}
+                </button>
+            ))}
+        </div>
+    </div>
+)}
