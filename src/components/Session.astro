@@ -1,5 +1,8 @@
 ---
 import type { Item } from "../data/routine";
+import type { Block } from "../data/lift";
+import { countSets } from "../data/lift";
+import Lift from "./Lift.astro";
 
 interface Props {
     id: string;
@@ -8,54 +11,46 @@ interface Props {
 }
 
 const { id, label, items } = Astro.props;
-const sub = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ");
+
+const times = (n: number, r: string) => Array.from({ length: n }, () => r);
+const note = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ") || undefined;
+
+// Rest after each set, based on the rep target: heavy sets rest longer.
+const restFor = (reps: string) => {
+    if (/sec|min/.test(reps)) return 45;
+    if (reps === "max") return 90;
+    const nums = (reps.match(/\d+/g) ?? []).map(Number);
+    const top = nums.length ? Math.max(...nums) : 12;
+    if (top <= 8) return 120;
+    if (top <= 12) return 90;
+    return 60;
+};
+const restText = (s: number) => (s >= 120 ? `${s / 60} min` : `${s} sec`);
+
+let letter = 0;
+const blocks: Block[] = items.map((it): Block => {
+    if (it.kind === "single") {
+        const rest = restFor(it.reps);
+        return { kind: "straight", name: it.name, reps: times(it.sets, it.reps), rest, restLabel: restText(rest), note: note(it.unit, it.detail) };
+    }
+    if (it.kind === "superset") {
+        return {
+            kind: "superset",
+            letter: String.fromCharCode(65 + letter++),
+            rest: 60,
+            restLabel: "60 sec after each round",
+            a: { name: it.a.name, reps: times(it.sets, it.a.reps), note: note(it.a.unit, it.a.detail) },
+            b: { name: it.b.name, reps: times(it.sets, it.b.reps), note: note(it.b.unit, it.b.detail) },
+        };
+    }
+    return { kind: "straight", name: it.name, reps: [it.time], rest: 0, restLabel: "" };
+});
 ---
 
 <section class="session">
     {label && <h3 class="session-label">{label}</h3>}
-    <ul class="items">
-        {items.map((item, i) => (
-            <li>
-                <label class={`item item-${item.kind}`}>
-                    <input type="checkbox" class="check" data-key={`${id}-${i}`} />
-                    <span class="mark" aria-hidden="true"></span>
-                    <span class="content">
-                        {item.kind === "single" && (
-                            <>
-                                <span class="line">
-                                    <span class="name">{item.name}</span>
-                                    <span class="scheme">{item.sets}<span class="x"> × </span>{item.reps}</span>
-                                </span>
-                                {sub(item.unit, item.detail) && <span class="sub">{sub(item.unit, item.detail)}</span>}
-                            </>
-                        )}
-                        {item.kind === "superset" && (
-                            <>
-                                <span class="ss-head">
-                                    <span>superset</span>
-                                    <span>{item.sets} sets</span>
-                                </span>
-                                {[item.a, item.b].map((m, n) => (
-                                    <span class="move">
-                                        <span class="letter">{n === 0 ? "A1" : "A2"}</span>
-                                        <span class="move-main">
-                                            <span class="name">{m.name}</span>
-                                            {sub(m.unit, m.detail) && <span class="sub">{sub(m.unit, m.detail)}</span>}
-                                        </span>
-                                        <span class="scheme">{m.reps}</span>
-                                    </span>
-                                ))}
-                            </>
-                        )}
-                        {item.kind === "timed" && (
-                            <span class="line">
-                                <span class="name">{item.name}</span>
-                                <span class="scheme">{item.time}</span>
-                            </span>
-                        )}
-                    </span>
-                </label>
-            </li>
-        ))}
-    </ul>
+    <p class="session-meta">{countSets(blocks)} sets</p>
+    <div class="lifts">
+        {blocks.map((b, i) => <Lift id={`${id}-${i}`} block={b} />)}
+    </div>
 </section>

@@ -1,11 +1,10 @@
 // Arnold Schwarzenegger's prime double split, reconstructed.
 // reps holds one target per set, so pyramids show set by set.
 
-export type Move = { name: string; reps: string[] };
+import type { Move, Block } from "./lift";
+import { countSets } from "./lift";
 
-export type Block =
-    | { kind: "superset"; letter: string; rest: number; restLabel: string; a: Move; b: Move }
-    | { kind: "straight"; name: string; reps: string[]; rest: number; restLabel: string; extra?: boolean; note?: string };
+export type { Move, Block };
 
 export type Section = { label?: string; blocks: Block[] };
 
@@ -54,7 +53,6 @@ export const workouts: Record<"A" | "B", Workout> = {
                         label: "straight sets",
                         blocks: [
                             st("Dumbbell Pullovers", times(5, "15–20"), 60, "60 sec"),
-                            extra("Chest and Back Posing", "3–5 min", "finish, not counted"),
                         ],
                     },
                 ],
@@ -128,7 +126,6 @@ export const workouts: Record<"A" | "B", Workout> = {
                             st("Reverse-Grip Preacher Curls", times(5, "10"), 60, "60 sec"),
                             st("Barbell Wrist Curls", times(5, "10"), 45, "45 sec"),
                             st("Reverse Wrist Curls", times(3, "10"), 45, "45 sec"),
-                            extra("Shoulder and Arm Posing", "3–5 min", "finish, not counted"),
                         ],
                     },
                 ],
@@ -160,9 +157,5 @@ export const week = [
     { key: "fri", name: "friday", workout: "A" },
     { key: "sat", name: "saturday", workout: "B" },
 ] as const;
-
-// Working sets only; warm-ups and posing are not counted.
-export const countSets = (blocks: Block[]) =>
-    blocks.reduce((n, b) => n + (b.kind === "superset" ? b.a.reps.length * 2 : b.extra ? 0 : b.reps.length), 0);
 
 export const sessionSets = (s: Session) => countSets(s.sections.flatMap((x) => x.blocks));

@@ -1,5 +1,5 @@
 ---
-import type { Block } from "../data/arnold";
+import type { Block } from "../data/lift";
 
 interface Props {
     id: string;
@@ -21,6 +21,7 @@ const same = (reps: string[]) => reps.every((r) => r === reps[0]);
                 <span class="letter">{block.letter}{n + 1}</span>
                 <span class="move-main">
                     <span class="name">{m.name}</span>
+                    {m.note && <span class="sub">{m.note}</span>}
                     {same(m.reps) ? (
                         <span class="pyr">{m.reps[0]} reps every round</span>
                     ) : (

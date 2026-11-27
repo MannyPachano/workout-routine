@@ -1,0 +1,227 @@
+---
+// Rest timer, back-to-top button and all page behaviour, shared by both pages.
+// Settings come from data attributes on <main class="page">:
+//   data-store     localStorage key for ticked sets
+//   data-open      "today" opens today's weekday card, "remember" reopens the last day
+//   data-open-key  localStorage key for the last open day (remember mode)
+---
+
+<div class="rest-timer" id="rest-timer" hidden>
+    <span class="rest-label" id="rest-label">rest</span>
+    <span class="rest-time" id="rest-time">0:00</span>
+    <button type="button" id="rest-add">+15 sec</button>
+    <button type="button" id="rest-skip">skip</button>
+</div>
+
+<button type="button" class="to-top" id="to-top" aria-label="back to top" hidden>
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+</button>
+
+<script>
+    const page = document.querySelector<HTMLElement>("main.page");
+    const KEY = page?.dataset.store ?? "progress";
+    const OPEN_MODE = page?.dataset.open ?? "remember";
+    const OPEN_KEY = page?.dataset.openKey ?? "";
+
+    const readJSON = (): Record<string, boolean> => {
+        try {
+            return JSON.parse(localStorage.getItem(KEY) ?? "{}");
+        } catch {
+            return {};
+        }
+    };
+    const write = (data: Record<string, boolean>) => {
+        try {
+            localStorage.setItem(KEY, JSON.stringify(data));
+        } catch {}
+    };
+    const readOpen = () => {
+        try {
+            return OPEN_KEY ? localStorage.getItem(OPEN_KEY) : null;
+        } catch {
+            return null;
+        }
+    };
+    const writeOpen = (v: string) => {
+        try {
+            if (!OPEN_KEY) return;
+            if (v) localStorage.setItem(OPEN_KEY, v);
+            else localStorage.removeItem(OPEN_KEY);
+        } catch {}
+    };
+
+    const progress = readJSON();
+    const days = Array.from(document.querySelectorAll<HTMLDetailsElement>("details.day[data-day]"));
+    const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav]"));
+    const pressed = (b: Element) => b.getAttribute("aria-pressed") === "true";
+    let ready = false;
+
+    // Rest timer
+    const timer = document.getElementById("rest-timer")!;
+    const timeEl = document.getElementById("rest-time")!;
+    const labelEl = document.getElementById("rest-label")!;
+    let end = 0;
+    let tick: number | undefined;
+    let hideLater: number | undefined;
+
+    const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    const hideTimer = () => {
+        window.clearInterval(tick);
+        window.clearTimeout(hideLater);
+        timer.hidden = true;
+        document.body.classList.remove("timing");
+    };
+    const step = () => {
+        const left = Math.ceil((end - Date.now()) / 1000);
+        if (left > 0) {
+            timeEl.textContent = fmt(left);
+            labelEl.textContent = "rest";
+            timer.classList.remove("over");
+            return;
+        }
+        window.clearInterval(tick);
+        timeEl.textContent = "0:00";
+        labelEl.textContent = "rest over";
+        timer.classList.add("over");
+        try {
+            navigator.vibrate?.([200, 100, 200]);
+        } catch {}
+        hideLater = window.setTimeout(hideTimer, 5000);
+    };
+    const runTimer = () => {
+        window.clearTimeout(hideLater);
+        window.clearInterval(tick);
+        timer.hidden = false;
+        document.body.classList.add("timing");
+        step();
+        tick = window.setInterval(step, 250);
+    };
+    const startTimer = (seconds: number) => {
+        end = Date.now() + seconds * 1000;
+        runTimer();
+    };
+    document.getElementById("rest-add")?.addEventListener("click", () => {
+        end = Math.max(end, Date.now()) + 15000;
+        runTimer();
+    });
+    document.getElementById("rest-skip")?.addEventListener("click", hideTimer);
+
+    // Progress
+    const refreshLift = (lift: Element) => {
+        const sets = Array.from(lift.querySelectorAll("[data-set]"));
+        const next = sets.findIndex((b) => !pressed(b));
+        lift.classList.toggle("done", next === -1);
+        sets.forEach((b, i) => b.classList.toggle("next", i === next));
+        lift.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => el.classList.toggle("now", Number(el.dataset.step) === next));
+    };
+    const refreshDay = (day: HTMLDetailsElement) => {
+        // A superset round counts as two working sets
+        const sets = Array.from(day.querySelectorAll<HTMLElement>("[data-set]:not([data-extra])"));
+        const weight = (b: HTMLElement) => Number(b.dataset.sets ?? 1);
+        const total = sets.reduce((n, b) => n + weight(b), 0);
+        const done = sets.filter(pressed).reduce((n, b) => n + weight(b), 0);
+        const label = day.querySelector("[data-progress]");
+        if (label) label.textContent = `${done}/${total}`;
+        day.classList.toggle("complete", total > 0 && done === total);
+    };
+    const setActiveNav = (k: string | null) => navLinks.forEach((a) => a.classList.toggle("active", a.dataset.nav === k));
+
+    days.forEach((day) => {
+        day.querySelectorAll<HTMLElement>("[data-lift]").forEach((lift) => {
+            lift.querySelectorAll<HTMLButtonElement>("[data-set]").forEach((btn) => {
+                btn.setAttribute("aria-pressed", String(Boolean(progress[btn.dataset.key ?? ""])));
+                btn.addEventListener("click", () => {
+                    const on = !pressed(btn);
+                    btn.setAttribute("aria-pressed", String(on));
+                    const key = btn.dataset.key ?? "";
+                    if (on) progress[key] = true;
+                    else delete progress[key];
+                    write(progress);
+                    refreshLift(lift);
+                    refreshDay(day);
+                    const rest = Number(lift.dataset.rest ?? 0);
+                    if (on && rest > 0) startTimer(rest);
+                });
+            });
+            refreshLift(lift);
+        });
+        refreshDay(day);
+
+        const reset = day.querySelector<HTMLButtonElement>("[data-reset]");
+        const original = reset?.textContent ?? "";
+        let armed: number | undefined;
+        reset?.addEventListener("click", () => {
+            if (!armed) {
+                reset.textContent = "tap again to clear this day";
+                reset.classList.add("armed");
+                armed = window.setTimeout(() => {
+                    reset.textContent = original;
+                    reset.classList.remove("armed");
+                    armed = undefined;
+                }, 3000);
+                return;
+            }
+            window.clearTimeout(armed);
+            armed = undefined;
+            day.querySelectorAll<HTMLButtonElement>("[data-set]").forEach((b) => {
+                b.setAttribute("aria-pressed", "false");
+                delete progress[b.dataset.key ?? ""];
+            });
+            write(progress);
+            day.querySelectorAll("[data-lift]").forEach(refreshLift);
+            refreshDay(day);
+            reset.textContent = original;
+            reset.classList.remove("armed");
+        });
+
+        day.addEventListener("toggle", () => {
+            if (day.open) {
+                days.forEach((other) => {
+                    if (other !== day) other.open = false;
+                });
+                setActiveNav(day.dataset.day ?? null);
+                if (ready) {
+                    writeOpen(day.dataset.day ?? "");
+                    requestAnimationFrame(() => day.scrollIntoView({ block: "start" }));
+                }
+            } else if (!days.some((d) => d.open)) {
+                setActiveNav(null);
+                if (ready) writeOpen("");
+            }
+        });
+    });
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const day = days.find((d) => d.dataset.day === link.dataset.nav);
+            if (!day) return;
+            if (day.open) day.scrollIntoView({ block: "start" });
+            else day.open = true;
+        });
+    });
+
+    // Which day opens on load
+    let first: string | null;
+    if (OPEN_MODE === "today") {
+        first = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][new Date().getDay()];
+        navLinks.find((a) => a.dataset.nav === first)?.classList.add("today");
+    } else {
+        first = readOpen() ?? days[0]?.dataset.day ?? null;
+    }
+    const firstCard = days.find((d) => d.dataset.day === first);
+    if (firstCard) firstCard.open = true;
+    window.setTimeout(() => {
+        ready = true;
+    }, 300);
+
+    const toTop = document.getElementById("to-top");
+    toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (toTop) toTop.hidden = window.scrollY < 700;
+        },
+        { passive: true }
+    );
+</script>

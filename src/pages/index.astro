@@ -2,6 +2,7 @@
 import "../style.scss";
 import Day from "../components/Day.astro";
 import Session from "../components/Session.astro";
+import Tracker from "../components/Tracker.astro";
 import ChestWorkout from "../components/ChestWorkout.astro";
 import SecondSession from "../components/SecondSession.astro";
 import { back, quads, arms, shoulders, glutes, mobility } from "../data/routine";
@@ -20,7 +21,7 @@ const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
     <title>manny workout plan</title>
 </head>
 <body>
-    <main class="page" id="top">
+    <main class="page" id="top" data-store="workout-progress-v5" data-open="remember" data-open-key="workout-open-day-v1">
         <h1 class="page-title">workout plan</h1>
         <a class="page-link" href="/arnold">Arnold Schwarzenegger's routine</a>
 
@@ -28,6 +29,20 @@ const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
             <span class="day-nav-label">day</span>
             {dayNumbers.map((n) => <a href={`#day-${n}`} data-nav={n}>{n}</a>)}
         </nav>
+
+        <details class="day guide">
+            <summary>
+                <h2 class="day-main">
+                    <span class="day-title">how to use this page</span>
+                </h2>
+                <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <ul class="guide-list">
+                <li><strong>Sets:</strong> tap a set when it is done. The next set is outlined, and the counter on each day shows sets done out of the total.</li>
+                <li><strong>Supersets:</strong> do both exercises back to back with no rest, then tap the round. A round counts as two sets.</li>
+                <li><strong>Rest timer:</strong> starts on its own after each tap and buzzes when rest is over. Sets of 8 reps or fewer get 2 min, up to 12 reps get 90 sec, higher reps and supersets get 60 sec, and timed holds get 45 sec.</li>
+            </ul>
+        </details>
 
         <details class="day mobility">
             <summary>
@@ -78,139 +93,6 @@ const dayNumbers = [1, 2, 3, 4, 5, 6, 7];
         </Day>
     </main>
 
-    <button type="button" class="to-top" id="to-top" aria-label="back to top" hidden>
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-    </button>
-
-    <script>
-        const PROGRESS_KEY = "workout-progress-v4";
-        const OPEN_KEY = "workout-open-day-v1";
-
-        const readProgress = (): Record<string, boolean> => {
-            try {
-                return JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? "{}");
-            } catch {
-                return {};
-            }
-        };
-        const writeProgress = (data: Record<string, boolean>) => {
-            try {
-                localStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
-            } catch {}
-        };
-        const readOpen = (): string | null => {
-            try {
-                return localStorage.getItem(OPEN_KEY);
-            } catch {
-                return null;
-            }
-        };
-        const writeOpen = (value: string) => {
-            try {
-                if (value) localStorage.setItem(OPEN_KEY, value);
-                else localStorage.removeItem(OPEN_KEY);
-            } catch {}
-        };
-
-        const progress = readProgress();
-        const days = Array.from(document.querySelectorAll<HTMLDetailsElement>("details.day[data-day]"));
-        const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav]"));
-        let ready = false;
-
-        const refresh = (day: HTMLDetailsElement) => {
-            const boxes = Array.from(day.querySelectorAll<HTMLInputElement>(".check"));
-            const done = boxes.filter((box) => box.checked).length;
-            const label = day.querySelector("[data-progress]");
-            if (label) label.textContent = `${done}/${boxes.length}`;
-            day.classList.toggle("complete", boxes.length > 0 && done === boxes.length);
-        };
-
-        const setActiveNav = (n: string | null) => {
-            navLinks.forEach((link) => link.classList.toggle("active", link.dataset.nav === n));
-        };
-
-        days.forEach((day) => {
-            day.querySelectorAll<HTMLInputElement>(".check").forEach((box) => {
-                box.checked = Boolean(progress[box.dataset.key ?? ""]);
-                box.addEventListener("change", () => {
-                    const key = box.dataset.key ?? "";
-                    if (box.checked) progress[key] = true;
-                    else delete progress[key];
-                    writeProgress(progress);
-                    refresh(day);
-                });
-            });
-            refresh(day);
-
-            const reset = day.querySelector<HTMLButtonElement>("[data-reset]");
-            let armed: number | undefined;
-            reset?.addEventListener("click", () => {
-                if (!armed) {
-                    const original = reset.textContent;
-                    reset.textContent = "tap again to clear this day";
-                    reset.classList.add("armed");
-                    armed = window.setTimeout(() => {
-                        reset.textContent = original;
-                        reset.classList.remove("armed");
-                        armed = undefined;
-                    }, 3000);
-                    return;
-                }
-                window.clearTimeout(armed);
-                armed = undefined;
-                day.querySelectorAll<HTMLInputElement>(".check").forEach((box) => {
-                    box.checked = false;
-                    delete progress[box.dataset.key ?? ""];
-                });
-                writeProgress(progress);
-                refresh(day);
-                reset.textContent = `reset day ${day.dataset.day}`;
-                reset.classList.remove("armed");
-            });
-
-            day.addEventListener("toggle", () => {
-                if (day.open) {
-                    days.forEach((other) => {
-                        if (other !== day) other.open = false;
-                    });
-                    setActiveNav(day.dataset.day ?? null);
-                    if (ready) {
-                        writeOpen(day.dataset.day ?? "");
-                        requestAnimationFrame(() => day.scrollIntoView({ block: "start" }));
-                    }
-                } else if (!days.some((other) => other.open)) {
-                    setActiveNav(null);
-                    if (ready) writeOpen("");
-                }
-            });
-        });
-
-        navLinks.forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-                const day = days.find((d) => d.dataset.day === link.dataset.nav);
-                if (!day) return;
-                if (day.open) day.scrollIntoView({ block: "start" });
-                else day.open = true;
-            });
-        });
-
-        const stored = readOpen();
-        const initial = days.find((d) => d.dataset.day === (stored ?? "1"));
-        if (initial) initial.open = true;
-        window.setTimeout(() => {
-            ready = true;
-        }, 300);
-
-        const toTop = document.getElementById("to-top");
-        toTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-        window.addEventListener(
-            "scroll",
-            () => {
-                if (toTop) toTop.hidden = window.scrollY < 700;
-            },
-            { passive: true }
-        );
-    </script>
+    <Tracker />
 </body>
 </html>
